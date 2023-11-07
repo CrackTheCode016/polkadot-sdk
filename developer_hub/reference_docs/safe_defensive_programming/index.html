@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Learn about how to write safe and defensive code in your FRAME runtime. As our runtime should never panic; this includes eliminating the possibility of integer overflows, converting between number types, or even handling floating point usage with fixed point arithmetic to mitigate issues that come with floating point calculations."><title>developer_hub::reference_docs::safe_defensive_programming - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="developer_hub" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0 (cc66ad468 2023-10-03)" data-channel="1.73.0" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-1596385f77d47ef2.css" data-theme-dark-css="dark-0a43001d3fc2282c.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-1596385f77d47ef2.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-0a43001d3fc2282c.css"><link rel="stylesheet" href="../../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc mod"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="logo-container" href="../../../developer_hub/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><h2></h2></nav><nav class="sidebar"><a class="logo-container" href="../../../developer_hub/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><h2 class="location"><a href="#">Module safe_defensive_programming</a></h2><div class="sidebar-elems"></div></nav><main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1>Module <a href="../../index.html">developer_hub</a>::<wbr><a href="../index.html">reference_docs</a>::<wbr><a class="mod" href="#">safe_defensive_programming</a><button id="copy-path" title="Copy item path to clipboard"><img src="../../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../../src/developer_hub/reference_docs/safe_defensive_programming.rs.html#1-402">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Learn about how to write safe and defensive code in your FRAME runtime.
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Learn about how to write safe and defensive code in your FRAME runtime. As our runtime should never panic; this includes eliminating the possibility of integer overflows, converting between number types, or even handling floating point usage with fixed point arithmetic to mitigate issues that come with floating point calculations."><title>developer_hub::reference_docs::safe_defensive_programming - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="developer_hub" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0 (cc66ad468 2023-10-03)" data-channel="1.73.0" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-1596385f77d47ef2.css" data-theme-dark-css="dark-0a43001d3fc2282c.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-1596385f77d47ef2.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-0a43001d3fc2282c.css"><link rel="stylesheet" href="../../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc mod"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="logo-container" href="../../../developer_hub/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><h2></h2></nav><nav class="sidebar"><a class="logo-container" href="../../../developer_hub/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><h2 class="location"><a href="#">Module safe_defensive_programming</a></h2><div class="sidebar-elems"></div></nav><main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1>Module <a href="../../index.html">developer_hub</a>::<wbr><a href="../index.html">reference_docs</a>::<wbr><a class="mod" href="#">safe_defensive_programming</a><button id="copy-path" title="Copy item path to clipboard"><img src="../../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../../src/developer_hub/reference_docs/safe_defensive_programming.rs.html#1-376">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Learn about how to write safe and defensive code in your FRAME runtime.
 As our runtime should <em>never</em> panic; this includes eliminating the possibility of integer overflows,
 converting between number types, or even handling floating point usage with fixed point arithmetic
 to mitigate issues that come with floating point calculations.</p>
@@ -6,16 +6,16 @@ to mitigate issues that come with floating point calculations.</p>
 <p>The Rust compiler prevents any sort of static overflow from happening at compile time, for example:</p>
 
 <div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">let </span>overflow = u8::MAX + <span class="number">10</span>;</code></pre></div>
-<div class="example-wrap"><pre class="language-text"><code>// Results in:
-error: this arithmetic operation will overflow
+<p>Would yield the following error:</p>
+<div class="example-wrap"><pre class="language-text"><code>error: this arithmetic operation will overflow
    --&gt; src/main.rs:121:24
     |
 121 |         let overflow = u8::MAX + 10;
     |                        ^^^^^^^^^^^^ attempt to compute `u8::MAX + 10_u8`, which would overflow
     |
 </code></pre></div>
-<p>However in runtime, we don’t always have control over what is being supplied as a parameter. For
-example, this counter function could present one of two outcomes depending on whether it is in
+<p>However in the runtime context, we don’t always have control over what is being supplied as a parameter. For
+example, even this simple adding function could present one of two outcomes depending on whether it is in
 <strong>release</strong> or <strong>debug</strong> mode:</p>
 
 <div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>naive_add(x: u8, y: u8) -&gt; u8 {
@@ -28,7 +28,7 @@ example, this counter function could present one of two outcomes depending on wh
 mode, it resorts to silently <em>wrapping</em> the overflowed amount in a modular fashion, (hence returning
 <code>4</code>).</p>
 <p>It is actually the <em>silent</em> portion of this behavior that presents a real issue - as it may be an
-unintended, but also a very <em>silent killer</em> in terms of producing bugs. In fact, it may have been
+unintended, but also a very <em>silent killer</em> in terms of producing bugs. In fact, it would have been
 better for this type of behavior to produce some sort of error, or even <code>panic!</code>, as in that
 scenario, at least such behavior could become obvious. Especially in the context of blockchain
 development, where unsafe arithmetic could produce unexpected consequences.</p>
@@ -37,28 +37,21 @@ the user’s balance starting from zero, or vice versa, of a <code>0</code> bala
 some type. Naturally, this could lead to various exploits and issues down the road, which if failing
 silently, would be difficult to trace and rectify.</p>
 <p>Luckily, there are ways to both represent and handle these scenarios depending on our specific use
-case natively built into Rust, as well as libraries like <code>sp_arithmetic</code>.</p>
-<h3 id="safe-math"><a href="#safe-math">Safe Math</a></h3>
-<p>Our main objective is to reduce the likelihood of any unintended or undefined behavior within our
-blockchain runtime. Intentional and predictable design should be our first and foremost property for
+case natively built into Rust, as well as libraries like [<code>sp_arithmetic</code>].</p>
+<h3 id="infallible-arithmetic"><a href="#infallible-arithmetic">Infallible Arithmetic</a></h3>
+<p>Our main objective in runtime development is to reduce the likelihood of any <em>unintended</em> or <em>undefined</em> behavior.
+Intentional and predictable design should be our first and foremost property for
 ensuring a well running, safely designed system. Both Rust and Substrate both provide safe ways to
 deal with numbers and alternatives to floating point arithmetic.</p>
-<p>Defensive, or safe math, isn’t just useful for blockchain development.</p>
-<p>Traditional banking also needs to utilize such practices within its codebase. Rather than use purely
-primitive, native types, <strong>fixed-point arithmetic</strong> usually involves abstracting such operations
-into more controlled, fixed-point types.</p>
-<p>Banking applications also don’t use floating point numbers. Rather they (should) use fixed-point
-arithmetic to mitigate the potential for inaccuracy, rounding errors, or other unexpected behavior.
-For more on the specifics of why this is,
-<a href="https://www.youtube.com/watch?v=PZRI1IfStY0">watch this video by the Computerfile</a>.</p>
+<p>Rather they (should) use fixed-point arithmetic to mitigate the potential for inaccuracy, rounding errors, or other unexpected behavior.
+For more on the specifics of the peculiarities of floating point calculations, <a href="https://www.youtube.com/watch?v=PZRI1IfStY0">watch this video by the Computerfile</a>.</p>
 <p>Using <strong>primitive</strong> floating point number types in a blockchain context should also be avoided, as a
 single nondeterministic result could cause chaos for consensus along with the aforementioned issues.</p>
 <p>The following methods represent different ways one can handle numbers safely natively in Rust,
 without fear of panic or unexpected behavior from wrapping.</p>
 <h4 id="checked-operations"><a href="#checked-operations">Checked Operations</a></h4>
-<p><strong>Checked operations</strong> utilize a <code>Option&lt;T&gt;</code> as a return type. This means that if the resulting
-operation is invalid, i.e., an integer overflow, it will return <code>None</code>, and if successful, then
-<code>Some</code>. The only downside of using this type is the need to handle the <code>Option</code> type accordingly.</p>
+<p><strong>Checked operations</strong> utilize a <code>Option&lt;T&gt;</code> as a return type.  This allows for simple pattern matching to catch any unexpected 
+behavior in the event of an overflow.</p>
 <p>This is an example of a valid operation:</p>
 
 <div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>checked_add_example() {
@@ -78,12 +71,12 @@ simply result in <code>None</code>:</p>
 <p>Typically, if you aren’t sure about which operation to use for runtime math, <strong>checked</strong> operations
 are a safe bet, as it presents two, predictable (and <em>erroring</em>) outcomes that can be handled
 accordingly (<code>Some</code> and <code>None</code>).</p>
-<p>In a practical context, the resulting <code>Option</code> should be handled accordingly. The following
-conventions can be seen from the within the Polkadot SDK, where an <code>Option</code> can be handled in one of
+<p>In a practical context, the resulting <a href="https://doc.rust-lang.org/1.73.0/core/option/enum.Option.html" title="enum core::option::Option"><code>Option</code></a> should be handled accordingly. The following
+conventions can be seen from the within the Polkadot SDK, where it can be handled in one of
 two ways:</p>
 <ul>
-<li>As an <code>Option</code>, using the <code>if let</code> / <code>if</code> or <code>match</code></li>
-<li>As a <code>Result</code>, via <code>ok_or</code> (or similar conversion to <code>Result</code> from <code>Option</code>)</li>
+<li>As an <a href="https://doc.rust-lang.org/1.73.0/core/option/enum.Option.html" title="enum core::option::Option"><code>Option</code></a>, using the <code>if let</code> / <code>if</code> or <code>match</code></li>
+<li>As a <a href="https://doc.rust-lang.org/1.73.0/core/result/enum.Result.html" title="enum core::result::Result"><code>Result</code></a>, via <code>ok_or</code> (or similar conversion to <a href="https://doc.rust-lang.org/1.73.0/core/result/enum.Result.html" title="enum core::result::Result"><code>Result</code></a> from <a href="https://doc.rust-lang.org/1.73.0/core/option/enum.Option.html" title="enum core::option::Option"><code>Option</code></a>)</li>
 </ul>
 <h5 id="handling-via-option---more-verbose"><a href="#handling-via-option---more-verbose">Handling via Option - More Verbose</a></h5>
 <p>Because wrapped operations return <code>Option&lt;T&gt;</code>, you can use a more verbose/explicit form of error
@@ -118,7 +111,7 @@ handling via <code>if</code> or <code>if let</code>:</p>
 <p>This is generally a useful convention for handling not only checked types, but most types that
 return <code>Option&lt;T&gt;</code>.</p>
 <h5 id="handling-via-result---less-verbose"><a href="#handling-via-result---less-verbose">Handling via Result - Less Verbose</a></h5>
-<p>In the Polkadot SDK codebase, you may see checked operations being handled as a <code>Result</code> via
+<p>In the Polkadot SDK codebase, you may see checked operations being handled as a <a href="https://doc.rust-lang.org/1.73.0/core/result/enum.Result.html" title="enum core::result::Result"><code>Result</code></a> via
 <code>ok_or</code>. This is a less verbose way of expressing the above.  Which to use often boils down to
 the developer’s preference:</p>
 
@@ -130,24 +123,13 @@ the developer’s preference:</p>
     Runtime::set_balance(account, new_balance);
     <span class="prelude-val">Ok</span>(())
 }</code></pre></div>
-<p>At a glance, this may seem confusing, as we just got done explaining how to handle a <code>Option</code>, not
-<code>Result</code>. <code>Result</code> may be used as an alternative to <code>Option</code> where it ergonomically makes sense to
-let the user know that something unexpected has happened. This is particularly useful in the context
-of dispatchables within a Substrate pallet, for example, where information about a failure to
-perform some action matters in the context of the application.</p>
-<h5 id="should-you-use-ok_or-or-ok_or_else"><a href="#should-you-use-ok_or-or-ok_or_else">Should you use <code>ok_or</code> or <code>ok_or_else</code>?</a></h5>
-<p>You may see <code>ok_or</code> and <code>ok_or_else</code> being used interchangeably. In reality, they have the same
-functionality with one caveat - <code>ok_or</code> is <em>eagerly</em> evaluated, versus <code>ok_or_else</code> is <em>lazily</em>
-evaluated. Using <code>ok_or_else</code> is more performant, as if the <code>Option</code> is <code>Some()</code>, there is no need
-to actually run the closure. <code>ok_or</code> is eager to make new allocations - regardless of whether it is
-relevant or not, thereby making it slightly more expensive.</p>
-<p><a href="https://rust-lang.github.io/rust-clippy/master/index.html#/or_fun_call">See more here.</a></p>
 <h4 id="saturated-operations"><a href="#saturated-operations">Saturated Operations</a></h4>
 <p>Saturating a number limits it to the type’s upper or lower bound, no matter the integer would
 overflow in runtime. For example, adding to <code>u32::MAX</code> would simply limit itself to <code>u32::MAX</code>:</p>
 
 <div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>saturated_add_example() {
-    <span class="comment">// Saturating add simply &#39;saturates&#39; to the numeric bound of that type if it overflows.
+    <span class="comment">// Saturating add simply &#39;saturates
+    // to the numeric bound of that type if it overflows.
     </span><span class="kw">let </span>add = u32::MAX.saturating_add(<span class="number">10</span>);
     <span class="macro">assert_eq!</span>(add, u32::MAX)
 }</code></pre></div>
@@ -156,7 +138,7 @@ avoid introducing the notion of any potential-panic or wrapping behavior.</p>
 <h4 id="mathematical-operations-in-substrate-development---further-context"><a href="#mathematical-operations-in-substrate-development---further-context">Mathematical Operations in Substrate Development - Further Context</a></h4>
 <p>As a recap, we covered the following concepts:</p>
 <ol>
-<li><strong>Checked</strong> operations - using <code>Option</code> or <code>Result</code>,</li>
+<li><strong>Checked</strong> operations - using <a href="https://doc.rust-lang.org/1.73.0/core/option/enum.Option.html" title="enum core::option::Option"><code>Option</code></a> or <a href="https://doc.rust-lang.org/1.73.0/core/result/enum.Result.html" title="enum core::result::Result"><code>Result</code></a>,</li>
 <li><strong>Saturated</strong> operations - limited to the lower and upper bounds of a number type,</li>
 <li><strong>Wrapped</strong> operations (the default) - wrap around to above or below the bounds of a type,</li>
 </ol>
@@ -175,16 +157,16 @@ handle the calculation to add to Bob’s balance with any regard to this overflo
 is now essentially <code>0</code>, the operation <strong>wrapped</strong>.</p>
 <details>
     <summary><b>Solution: Saturating or Checked</b></summary>
-    For Bob's balance problems, using a saturated_add or checked_add could've mitigated this issue.  They simply would've reached the upper, or lower bounds, of the particular type for an on-chain balance.  In other words: Bob's balance would've stayed at the maximum of the Balance type.
+    For Bob's balance problems, using a `saturated_add` or `checked_add` could've mitigated this issue.  They simply would've reached the upper, or lower bounds, of the particular type for an on-chain balance.  In other words: Bob's balance would've stayed at the maximum of the Balance type.
 </details>
 <h5 id="alices-underflowed-balance"><a href="#alices-underflowed-balance">Alice’s ‘Underflowed’ Balance</a></h5>
 <p>Alice’s balance has reached <code>0</code> after a transfer to Bob. Suddenly, she has been slashed on
-EduChain, causing her balance to reach near the limit of <code>u32::MAX</code> - a very large amount - as
+<code>EduChain</code>, causing her balance to reach near the limit of <code>u32::MAX</code> - a very large amount - as
 <em>wrapped operations</em> can go both ways. Alice can now successfully vote using her new,
 overpowered token balance, destroying the integrity of the chain.</p>
 <details>
   <summary><b>Solution: Saturating</b></summary>
-  For Alice's balance problem, using saturated_sub could've mitigated this issue.  As debt or having a negative balance is not a concept within blockchains, a saturating calculation would've simply limited her balance to the lower bound of u32.
+  For Alice's balance problem, using `saturated_sub` could've mitigated this issue.  As debt or having a negative balance is not a concept within blockchains, a saturating calculation would've simply limited her balance to the lower bound of u32.
 <p>In other words: Alice’s balance would’ve stayed at “0”, even after being slashed.</p>
 <p>This is also an example that while one system may work in isolation, shared interfaces, such as the notion of balances, are often shared across multiple pallets - meaning these small changes can make a big difference in outcome.</p>
 </details>
@@ -211,20 +193,20 @@ flowchart LR
     CH-->NEED["The user needs to know that the operation failed - and why"]
     CH-->DOUBT["Unsure whether this operation could fail/overflow"]
     ST-->SILENT["Silently reaching upper/lower bound will not result in any damage"]
-    ST-->REASON["In all reasonable circumstances, the number will not overflow"]
+    ST-->REASON["In all reasonable circumstances, the number will not overflow, but safety is still desired"]
 
 </pre><script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";var doc_theme = localStorage.getItem("rustdoc-theme");if (doc_theme === "dark" || doc_theme === "ayu") mermaid.initialize({theme: "dark"});</script>
 <h3 id="fixed-point-arithmetic"><a href="#fixed-point-arithmetic">Fixed Point Arithmetic</a></h3>
-<p>The following code may use types from [<code>sp_arithmetic</code>]. Feel free to follow along by including
-these crates.</p>
+<p>The following code may use types from [<code>sp_arithmetic</code>].</p>
 <p>Fixed point arithmetic solves the aforementioned problems of dealing with the uncertain
 nature of floating point numbers. Rather than use a radix point (<code>0.80</code>), a type which <em>represents</em>
-a floating point number in base 10 can be used instead.</p>
+a floating point number in base 10, i.e., a <strong>fixed point number</strong>, can be used instead.</p>
 <p><strong>Example - <a href="sp_arithmetic::Perbill"><code>Perbill</code></a>, parts of a billion</strong></p>
 
 <div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>perbill_example() {
     <span class="kw">let </span>p = Perbill::from_percent(<span class="number">80</span>);
-    <span class="comment">// 800000000 bil, or a representative of 0.800000000. Precision is in the billions place.
+    <span class="comment">// 800000000 bil, or a representative of 0.800000000. 
+    // Precision is in the billions place.
     </span><span class="macro">assert_eq!</span>(p.deconstruct(), <span class="number">800000000</span>);
 }</code></pre></div>
 <p><strong>Example - <a href="sp_arithmetic::Percent"><code>Percent</code></a>, parts of a hundred</strong></p>
