@@ -402,7 +402,7 @@
 //!
 </span><span class="attr">#![doc = <span class="macro">docify::embed!</span>(<span class="string">&quot;./src/reference_docs/safe_defensive_programming.rs&quot;</span>, naive_add)]
 </span><span class="doccomment">//!
-//! If we passed in overflow-able value sat runtime, this could actually panic (or wrap, if in release).
+//! If we passed in overflow-able values at runtime, this could actually panic (or wrap, if in release).
 //! ```ignore
 //! naive_add(250u8, 10u8); // In debug mode, this would panic. In release, this would return 4.
 //! ```

@@ -21,7 +21,7 @@ example, even this simple adding function could present one of two outcomes depe
 <div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>naive_add(x: u8, y: u8) -&gt; u8 {
     x + y
 }</code></pre></div>
-<p>If we passed in overflow-able value sat runtime, this could actually panic (or wrap, if in release).</p>
+<p>If we passed in overflow-able values at runtime, this could actually panic (or wrap, if in release).</p>
 
 <div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code>naive_add(<span class="number">250u8</span>, <span class="number">10u8</span>); <span class="comment">// In debug mode, this would panic. In release, this would return 4.</span></code></pre></div>
 <p>The Rust compiler would panic in <strong>debug</strong> mode in the event of an integer overflow. In <strong>release</strong>
