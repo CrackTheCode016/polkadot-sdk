@@ -44,13 +44,13 @@ Intentional and predictable design should be our first and foremost property for
 ensuring a well running, safely designed system. Both Rust and Substrate both provide safe ways to
 deal with numbers and alternatives to floating point arithmetic.</p>
 <p>Rather they (should) use fixed-point arithmetic to mitigate the potential for inaccuracy, rounding errors, or other unexpected behavior.
-For more on the specifics of the peculiarities of floating point calculations, <a href="https://www.youtube.com/watch?v=PZRI1IfStY0">watch this video by the Computerfile</a>.</p>
+For more on the specifics of the peculiarities of floating point calculations, <a href="https://www.youtube.com/watch?v=PZRI1IfStY0">watch this video by the Computerphile</a>.</p>
 <p>Using <strong>primitive</strong> floating point number types in a blockchain context should also be avoided, as a
 single nondeterministic result could cause chaos for consensus along with the aforementioned issues.</p>
 <p>The following methods represent different ways one can handle numbers safely natively in Rust,
 without fear of panic or unexpected behavior from wrapping.</p>
 <h4 id="checked-operations"><a href="#checked-operations">Checked Operations</a></h4>
-<p><strong>Checked operations</strong> utilize a <code>Option&lt;T&gt;</code> as a return type.  This allows for simple pattern matching to catch any unexpected 
+<p><strong>Checked operations</strong> utilize a <code>Option&lt;T&gt;</code> as a return type. This allows for simple pattern matching to catch any unexpected 
 behavior in the event of an overflow.</p>
 <p>This is an example of a valid operation:</p>
 
@@ -128,7 +128,7 @@ the developer’s preference:</p>
 overflow in runtime. For example, adding to <code>u32::MAX</code> would simply limit itself to <code>u32::MAX</code>:</p>
 
 <div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>saturated_add_example() {
-    <span class="comment">// Saturating add simply &#39;saturates
+    <span class="comment">// Saturating add simply saturates
     // to the numeric bound of that type if it overflows.
     </span><span class="kw">let </span>add = u32::MAX.saturating_add(<span class="number">10</span>);
     <span class="macro">assert_eq!</span>(add, u32::MAX)
