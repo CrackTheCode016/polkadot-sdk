@@ -374,13 +374,81 @@
 <a href="#374" id="374">374</a>
 <a href="#375" id="375">375</a>
 <a href="#376" id="376">376</a>
-</pre></div><pre class="rust"><code><span class="doccomment">//! As our runtime should _never_ panic; this includes eliminating the possibility of integer overflows,
-//! converting between number types, or even handling floating point usage with fixed point arithmetic
-//! to mitigate issues that come with floating point calculations.
+<a href="#377" id="377">377</a>
+<a href="#378" id="378">378</a>
+<a href="#379" id="379">379</a>
+<a href="#380" id="380">380</a>
+<a href="#381" id="381">381</a>
+<a href="#382" id="382">382</a>
+<a href="#383" id="383">383</a>
+<a href="#384" id="384">384</a>
+<a href="#385" id="385">385</a>
+<a href="#386" id="386">386</a>
+<a href="#387" id="387">387</a>
+<a href="#388" id="388">388</a>
+<a href="#389" id="389">389</a>
+<a href="#390" id="390">390</a>
+<a href="#391" id="391">391</a>
+<a href="#392" id="392">392</a>
+<a href="#393" id="393">393</a>
+<a href="#394" id="394">394</a>
+<a href="#395" id="395">395</a>
+<a href="#396" id="396">396</a>
+<a href="#397" id="397">397</a>
+<a href="#398" id="398">398</a>
+<a href="#399" id="399">399</a>
+<a href="#400" id="400">400</a>
+<a href="#401" id="401">401</a>
+<a href="#402" id="402">402</a>
+<a href="#403" id="403">403</a>
+<a href="#404" id="404">404</a>
+<a href="#405" id="405">405</a>
+<a href="#406" id="406">406</a>
+<a href="#407" id="407">407</a>
+<a href="#408" id="408">408</a>
+<a href="#409" id="409">409</a>
+<a href="#410" id="410">410</a>
+<a href="#411" id="411">411</a>
+<a href="#412" id="412">412</a>
+<a href="#413" id="413">413</a>
+<a href="#414" id="414">414</a>
+<a href="#415" id="415">415</a>
+<a href="#416" id="416">416</a>
+<a href="#417" id="417">417</a>
+<a href="#418" id="418">418</a>
+<a href="#419" id="419">419</a>
+<a href="#420" id="420">420</a>
+<a href="#421" id="421">421</a>
+<a href="#422" id="422">422</a>
+<a href="#423" id="423">423</a>
+<a href="#424" id="424">424</a>
+<a href="#425" id="425">425</a>
+<a href="#426" id="426">426</a>
+<a href="#427" id="427">427</a>
+<a href="#428" id="428">428</a>
+<a href="#429" id="429">429</a>
+<a href="#430" id="430">430</a>
+<a href="#431" id="431">431</a>
+<a href="#432" id="432">432</a>
+<a href="#433" id="433">433</a>
+<a href="#434" id="434">434</a>
+<a href="#435" id="435">435</a>
+<a href="#436" id="436">436</a>
+<a href="#437" id="437">437</a>
+<a href="#438" id="438">438</a>
+<a href="#439" id="439">439</a>
+<a href="#440" id="440">440</a>
+<a href="#441" id="441">441</a>
+<a href="#442" id="442">442</a>
+<a href="#443" id="443">443</a>
+</pre></div><pre class="rust"><code><span class="doccomment">//! As our runtime should _never_ panic; this includes eliminating the possibility of integer
+//! overflows, converting between number types, or even handling floating point usage with fixed
+//! point arithmetic to mitigate issues that come with floating point calculations.
 //!
 //! ## Integer Overflow
 //!
-//! The Rust compiler prevents any sort of static overflow from happening at compile time, for example:
+//! The Rust compiler prevents any sort of static overflow from happening at compile time, for
+//! example:
 //!
 //! ```ignore
 //! let overflow = u8::MAX + 10;
@@ -396,71 +464,70 @@
 //! ```
 //!
 //!
-//! However in the runtime context, we don&#39;t always have control over what is being supplied as a parameter. For
-//! example, even this simple adding function could present one of two outcomes depending on whether it is in
-//! **release** or **debug** mode:
-//!
+//! However in the runtime context, we don&#39;t always have control over what is being supplied as a
+//! parameter. For example, even this simple adding function could present one of two outcomes
+//! depending on whether it is in **release** or **debug** mode:
 </span><span class="attr">#![doc = <span class="macro">docify::embed!</span>(<span class="string">&quot;./src/reference_docs/safe_defensive_programming.rs&quot;</span>, naive_add)]
 </span><span class="doccomment">//!
-//! If we passed in overflow-able values at runtime, this could actually panic (or wrap, if in release).
+//! If we passed in overflow-able values at runtime, this could actually panic (or wrap, if in
+//! release).
 //! ```ignore
 //! naive_add(250u8, 10u8); // In debug mode, this would panic. In release, this would return 4.
 //! ```
 //!
-//! The Rust compiler would panic in **debug** mode in the event of an integer overflow. In **release**
-//! mode, it resorts to silently _wrapping_ the overflowed amount in a modular fashion, (hence returning
-//! `4`).
+//! The Rust compiler would panic in **debug** mode in the event of an integer overflow. In
+//! **release** mode, it resorts to silently _wrapping_ the overflowed amount in a modular fashion,
+//! (hence returning `4`).
 //!
-//! It is actually the _silent_ portion of this behavior that presents a real issue - as it may be an
-//! unintended, but also a very _silent killer_ in terms of producing bugs. In fact, it would have been
-//! better for this type of behavior to produce some sort of error, or even `panic!`, as in that
-//! scenario, at least such behavior could become obvious. Especially in the context of blockchain
-//! development, where unsafe arithmetic could produce unexpected consequences.
+//! It is actually the _silent_ portion of this behavior that presents a real issue - as it may be
+//! an unintended, but also a very _silent killer_ in terms of producing bugs. In fact, it would
+//! have been better for this type of behavior to produce some sort of error, or even `panic!`, as
+//! in that scenario, at least such behavior could become obvious. Especially in the context of
+//! blockchain development, where unsafe arithmetic could produce unexpected consequences.
 //!
-//! A quick example is a user&#39;s balance overflowing: the default behavior of wrapping could result in
-//! the user&#39;s balance starting from zero, or vice versa, of a `0` balance turning into the `MAX` of
-//! some type. Naturally, this could lead to various exploits and issues down the road, which if failing
-//! silently, would be difficult to trace and rectify.
+//! A quick example is a user&#39;s balance overflowing: the default behavior of wrapping could result
+//! in the user&#39;s balance starting from zero, or vice versa, of a `0` balance turning into the `MAX`
+//! of some type. Naturally, this could lead to various exploits and issues down the road, which if
+//! failing silently, would be difficult to trace and rectify.
 //!
-//! Luckily, there are ways to both represent and handle these scenarios depending on our specific use
-//! case natively built into Rust, as well as libraries like [`sp_arithmetic`].
+//! Luckily, there are ways to both represent and handle these scenarios depending on our specific
+//! use case natively built into Rust, as well as libraries like [`sp_arithmetic`].
 //!
 //! ## Infallible Arithmetic
 //!
-//! Our main objective in runtime development is to reduce the likelihood of any *unintended* or *undefined* behavior.
-//! Intentional and predictable design should be our first and foremost property for
-//! ensuring a well running, safely designed system. Both Rust and Substrate both provide safe ways to
-//! deal with numbers and alternatives to floating point arithmetic.
+//! Our main objective in runtime development is to reduce the likelihood of any *unintended* or
+//! *undefined* behavior. Intentional and predictable design should be our first and foremost
+//! property for ensuring a well running, safely designed system. Both Rust and Substrate both
+//! provide safe ways to deal with numbers and alternatives to floating point arithmetic.
 //!
-//! Rather they (should) use fixed-point arithmetic to mitigate the potential for inaccuracy, rounding errors, or other unexpected behavior.
-//! For more on the specifics of the peculiarities of floating point calculations, [watch this video by the Computerphile](https://www.youtube.com/watch?v=PZRI1IfStY0).
+//! Rather they (should) use fixed-point arithmetic to mitigate the potential for inaccuracy,
+//! rounding errors, or other unexpected behavior. For more on the specifics of the peculiarities of floating point calculations, [watch this video by the Computerphile](https://www.youtube.com/watch?v=PZRI1IfStY0).
 //!
-//! Using **primitive** floating point number types in a blockchain context should also be avoided, as a
-//! single nondeterministic result could cause chaos for consensus along with the aforementioned issues.
+//! Using **primitive** floating point number types in a blockchain context should also be avoided,
+//! as a single nondeterministic result could cause chaos for consensus along with the
+//! aforementioned issues.
 //!
 //! The following methods represent different ways one can handle numbers safely natively in Rust,
 //! without fear of panic or unexpected behavior from wrapping.
 //!
 //! ### Checked Operations
 //!
-//! **Checked operations** utilize a `Option&lt;T&gt;` as a return type.  This allows for simple pattern matching to catch any unexpected 
-//! behavior in the event of an overflow.
+//! **Checked operations** utilize a `Option&lt;T&gt;` as a return type. This allows for simple pattern
+//! matching to catch any unexpected behavior in the event of an overflow.
 //!
 //! This is an example of a valid operation:
-//!
 </span><span class="attr">#![doc = <span class="macro">docify::embed!</span>(<span class="string">&quot;./src/reference_docs/safe_defensive_programming.rs&quot;</span>, checked_add_example)]
 </span><span class="doccomment">//!
-//! This is an example of an invalid operation, in this case, a simulated integer overflow, which would
-//! simply result in `None`:
-//!
+//! This is an example of an invalid operation, in this case, a simulated integer overflow, which
+//! would simply result in `None`:
 </span><span class="attr">#![doc = <span class="macro">docify::embed!</span>(
     <span class="string">&quot;./src/reference_docs/safe_defensive_programming.rs&quot;</span>,
     checked_add_handle_error_example
 )]
 </span><span class="doccomment">//!
-//! Typically, if you aren&#39;t sure about which operation to use for runtime math, **checked** operations
-//! are a safe bet, as it presents two, predictable (and _erroring_) outcomes that can be handled
-//! accordingly (`Some` and `None`).
+//! Typically, if you aren&#39;t sure about which operation to use for runtime math, **checked**
+//! operations are a safe bet, as it presents two, predictable (and _erroring_) outcomes that can be
+//! handled accordingly (`Some` and `None`).
 //!
 //! In a practical context, the resulting [`Option`] should be handled accordingly. The following
 //! conventions can be seen from the within the Polkadot SDK, where it can be handled in one of
@@ -473,11 +540,9 @@
 //!
 //! Because wrapped operations return `Option&lt;T&gt;`, you can use a more verbose/explicit form of error
 //! handling via `if` or `if let`:
-//!
 </span><span class="attr">#![doc = <span class="macro">docify::embed!</span>(<span class="string">&quot;./src/reference_docs/safe_defensive_programming.rs&quot;</span>, increase_balance)]
 </span><span class="doccomment">//!
 //! Optionally, `match` may also be directly used in a more concise manner:
-//!
 </span><span class="attr">#![doc = <span class="macro">docify::embed!</span>(
     <span class="string">&quot;./src/reference_docs/safe_defensive_programming.rs&quot;</span>,
     increase_balance_match
@@ -491,7 +556,6 @@
 //! In the Polkadot SDK codebase, you may see checked operations being handled as a [`Result`] via
 //! `ok_or`. This is a less verbose way of expressing the above.  Which to use often boils down to
 //! the developer&#39;s preference:
-//!
 </span><span class="attr">#![doc = <span class="macro">docify::embed!</span>(
     <span class="string">&quot;./src/reference_docs/safe_defensive_programming.rs&quot;</span>,
     increase_balance_result
@@ -502,14 +566,13 @@
 //!
 //! Saturating a number limits it to the type&#39;s upper or lower bound, no matter the integer would
 //! overflow in runtime. For example, adding to `u32::MAX` would simply limit itself to `u32::MAX`:
-//!
 </span><span class="attr">#![doc = <span class="macro">docify::embed!</span>(
     <span class="string">&quot;./src/reference_docs/safe_defensive_programming.rs&quot;</span>,
     saturated_add_example
 )]
 </span><span class="doccomment">//!
-//! Saturating calculations can be used if one is very sure that something won&#39;t overflow, but wants to
-//! avoid introducing the notion of any potential-panic or wrapping behavior.
+//! Saturating calculations can be used if one is very sure that something won&#39;t overflow, but wants
+//! to avoid introducing the notion of any potential-panic or wrapping behavior.
 //!
 //! ### Mathematical Operations in Substrate Development - Further Context
 //!
@@ -521,28 +584,30 @@
 //!
 //! #### The problem with &#39;default&#39; wrapped operations
 //!
-//! **Wrapped operations** cause the overflow to wrap around to either the maximum or minimum of that
-//! type. Imagine this in the context of a blockchain, where there are balances, voting counters, nonces
-//! for transactions, and other aspects of a blockchain.
+//! **Wrapped operations** cause the overflow to wrap around to either the maximum or minimum of
+//! that type. Imagine this in the context of a blockchain, where there are balances, voting
+//! counters, nonces for transactions, and other aspects of a blockchain.
 //!
-//! Some of these mechanisms can be more critical than others. It&#39;s for this reason that we may consider
-//! some other ways of dealing with runtime arithmetic, such as saturated or checked operations, that
-//! won&#39;t carry these potential consequences.
+//! Some of these mechanisms can be more critical than others. It&#39;s for this reason that we may
+//! consider some other ways of dealing with runtime arithmetic, such as saturated or checked
+//! operations, that won&#39;t carry these potential consequences.
 //!
 //!
-//! While it may seem trivial, choosing how to handle numbers is quite important. As a thought exercise,
-//! here are some scenarios of which will shed more light on when to use which.
+//! While it may seem trivial, choosing how to handle numbers is quite important. As a thought
+//! exercise, here are some scenarios of which will shed more light on when to use which.
 //!
 //! #### Bob&#39;s Overflowed Balance
 //!
-//! **Bob&#39;s** balance exceeds the `Balance` type on the `EduChain`. Because the pallet developer did not
-//! handle the calculation to add to Bob&#39;s balance with any regard to this overflow, **Bob&#39;s** balance
-//! is now essentially `0`, the operation **wrapped**.
+//! **Bob&#39;s** balance exceeds the `Balance` type on the `EduChain`. Because the pallet developer did
+//! not handle the calculation to add to Bob&#39;s balance with any regard to this overflow, **Bob&#39;s**
+//! balance is now essentially `0`, the operation **wrapped**.
 //!
 //! &lt;details&gt;
-//!     &lt;summary&gt;&lt;b&gt;Solution: Saturating or Checked&lt;/b&gt;&lt;/summary&gt;
-//!     For Bob&#39;s balance problems, using a `saturated_add` or `checked_add` could&#39;ve mitigated this issue.  They simply would&#39;ve reached the upper, or lower bounds, of the particular type for an on-chain balance.  In other words: Bob&#39;s balance would&#39;ve stayed at the maximum of the Balance type.
-//! &lt;/details&gt;
+//!   &lt;summary&gt;&lt;b&gt;Solution: Saturating or Checked&lt;/b&gt;&lt;/summary&gt;
+//!     For Bob&#39;s balance problems, using a `saturated_add` or `checked_add` could&#39;ve mitigated this
+//! issue.  They simply would&#39;ve reached the upper, or lower bounds, of the particular type for an
+//! on-chain balance.  In other words: Bob&#39;s balance would&#39;ve stayed at the maximum of the Balance
+//! type. &lt;/details&gt;
 //!
 //! #### Alice&#39;s &#39;Underflowed&#39; Balance
 //!
@@ -553,24 +618,30 @@
 //!
 //! &lt;details&gt;
 //!   &lt;summary&gt;&lt;b&gt;Solution: Saturating&lt;/b&gt;&lt;/summary&gt;
-//!   For Alice&#39;s balance problem, using `saturated_sub` could&#39;ve mitigated this issue.  As debt or having a negative balance is not a concept within blockchains, a saturating calculation would&#39;ve simply limited her balance to the lower bound of u32.
+//!   For Alice&#39;s balance problem, using `saturated_sub` could&#39;ve mitigated this issue.  As debt or
+//! having a negative balance is not a concept within blockchains, a saturating calculation would&#39;ve
+//! simply limited her balance to the lower bound of u32.
 //!
 //!   In other words: Alice&#39;s balance would&#39;ve stayed at &quot;0&quot;, even after being slashed.
 //!
-//!   This is also an example that while one system may work in isolation, shared interfaces, such as the notion of balances, are often shared across multiple pallets - meaning these small changes can make a big difference in outcome.
-//! &lt;/details&gt;
+//!   This is also an example that while one system may work in isolation, shared interfaces, such
+//! as the notion of balances, are often shared across multiple pallets - meaning these small
+//! changes can make a big difference in outcome. &lt;/details&gt;
 //!
 //! #### Proposals&#39; ID Overwrite
 //!
 //! The type for counting the number of proposals on-chain is represented by a `u8` number, called
-//! `proposals_count`. Every time a new proposal is added to the system, this number increases. With the
-//! proposal pallet being high in usage, it has reached `u8::MAX`&#39;s limit of `255`, causing
-//! `proposals_count` to go to `0`. Unfortunately, this resulted in new proposals overwriting old ones,
-//! effectively erasing any notion of past proposals!
+//! `proposals_count`. Every time a new proposal is added to the system, this number increases. With
+//! the proposal pallet being high in usage, it has reached `u8::MAX`&#39;s limit of `255`, causing
+//! `proposals_count` to go to `0`. Unfortunately, this resulted in new proposals overwriting old
+//! ones, effectively erasing any notion of past proposals!
 //!
 //! &lt;details&gt;
-//!     &lt;summary&gt;&lt;b&gt;Solution: Checked&lt;/b&gt;&lt;/summary&gt;
-//! For the proposal IDs, proper handling via `checked` math would&#39;ve been much more suitable,  Saturating could&#39;ve been used - but it also would&#39;ve &#39;failed&#39; silently.  Using `checked_add` to ensure that the next proposal ID would&#39;ve been valid would&#39;ve been a viable way to let the user know the state of their proposal:
+//!  &lt;summary&gt;&lt;b&gt;Solution: Checked&lt;/b&gt;&lt;/summary&gt;
+//! For the proposal IDs, proper handling via `checked` math would&#39;ve been much more suitable,
+//! Saturating could&#39;ve been used - but it also would&#39;ve &#39;failed&#39; silently.  Using `checked_add` to
+//! ensure that the next proposal ID would&#39;ve been valid would&#39;ve been a viable way to let the user
+//! know the state of their proposal:
 //!
 //! ```ignore
 //! let next_proposal_id = current_count.checked_add(1).ok_or_else(|| Error::TooManyProposals)?;
@@ -579,39 +650,53 @@
 //! &lt;/details&gt;
 //!
 //!
-//! From the above, we can clearly see the problematic nature of seemingly simple operations in runtime.
-//! Of course, it may be that using checked math is perfectly fine under some scenarios - such as
-//! certain balance being never realistically attainable, or a number type being so large that it could
-//! never realistically overflow unless one sent thousands of transactions to the network.
+//! From the above, we can clearly see the problematic nature of seemingly simple operations in
+//! runtime. Of course, it may be that using checked math is perfectly fine under some scenarios -
+//! such as certain balance being never realistically attainable, or a number type being so large
+//! that it could never realistically overflow unless one sent thousands of transactions to the
+//! network.
 //!
 //! ### Decision Chart: When to use which?
-//!
 </span><span class="attr">#![doc = <span class="macro">simple_mermaid::mermaid!</span>(<span class="string">&quot;../../../docs/mermaid/integer_operation_decision.mmd&quot;</span>)]
 </span><span class="doccomment">//! ## Fixed Point Arithmetic
 //!
-//! The following code may use types from [`sp_arithmetic`].
+//! The following code uses types from [`sp_arithmetic`].
 //!
 //! Fixed point arithmetic solves the aforementioned problems of dealing with the uncertain
-//! nature of floating point numbers. Rather than use a radix point (`0.80`), a type which _represents_
-//! a floating point number in base 10, i.e., a **fixed point number**, can be used instead.
+//! nature of floating point numbers. Rather than use a radix point (`0.80`), a type which
+//! _represents_ a floating point number in base 10, i.e., a **fixed point number**, can be used
+//! instead.
 //!
-//! **Example - [`Perbill`](sp_arithmetic::Perbill), parts of a billion**
-//!
+//! For use cases which operate within the range of `[0, 1]` types which implement [`PerThing`](sp_arithmetic::PerThing) are used:
+//! - **[`Perbill`](sp_arithmetic::Perbill), parts of a billion**
 </span><span class="attr">#![doc = <span class="macro">docify::embed!</span>(<span class="string">&quot;./src/reference_docs/safe_defensive_programming.rs&quot;</span>, perbill_example)]
 </span><span class="doccomment">//!
-//! **Example - [`Percent`](sp_arithmetic::Percent), parts of a hundred**
-//!
+//! - **[`Percent`](sp_arithmetic::Percent), parts of a hundred**
 </span><span class="attr">#![doc = <span class="macro">docify::embed!</span>(<span class="string">&quot;./src/reference_docs/safe_defensive_programming.rs&quot;</span>, percent_example)]
 </span><span class="doccomment">//!
 //! Note that `190 / 400 = 0.475`, and that `Percent` represents it as a _rounded down_, fixed point
-//! number (`47`). Unlike primitive types, types that implement `PerThing` will also not overflow, and
-//! are therefore safe to use. They adopt the same behavior that a saturated calculation would provide,
-//! meaning that if one is to go over &quot;100%&quot;, it wouldn&#39;t overflow, but simply stop at the upper or
-//! lower bound.
+//! number (`47`). Unlike primitive types, types that implement [`PerThing`](sp_arithmetic::PerThing) will also not overflow,
+//! and are therefore safe to use. They adopt the same behavior that a saturated calculation would
+//! provide, meaning that if one is to go over &quot;100%&quot;, it wouldn&#39;t overflow, but simply stop at the
+//! upper or lower bound.
 //!
-//! ### Using &#39;PerThing&#39; In Practice
+//! For use cases which require precision beyond the range of `[0, 1]`, there are a number of other fixed-point types to use:
 //!
-//! [`sp_arithmetic`] contains a trait called [`PerThing`](sp_arithmetic::PerThing), allowing a custom type to be implemented specifically for fixed point arithmetic. While a number of fixed-point types are introduced, let&#39;s focus on a few specific examples that implement `PerThing`:
+//! - [`FixedU64`](sp_arithmetic::FixedU64) and [`FixedI64`](sp_arithmetic::FixedI64)
+//! - [`FixedI128`](sp_arithmetic::FixedU128) and [`FixedU128`](sp_arithmetic::FixedI128)
+//!
+//! Similar to types that implement [`PerThing`](sp_arithmetic::PerThing), these are also fixed-point types, however, they are able to represent larger numbers:
+//!
+</span><span class="attr">#![doc = <span class="macro">docify::embed!</span>(<span class="string">&quot;./src/reference_docs/safe_defensive_programming.rs&quot;</span>, fixed_u64)]
+</span><span class="doccomment">//!
+//! Let&#39;s now explore these types in practice, and how they may be used with pallets to perform safer calculations in the runtime.
+//!
+//! ### &#39;PerThing&#39; In Practice
+//!
+//! [`sp_arithmetic`] contains a trait called [`PerThing`](sp_arithmetic::PerThing), allowing a
+//! custom type to be implemented specifically for fixed point arithmetic. While a number of
+//! fixed-point types are introduced, let&#39;s focus on a few specific examples that implement
+//! [`PerThing`](sp_arithmetic::PerThing):
 //!
 //! - [`Percent`](sp_arithmetic::Percent) - parts of one hundred.
 //! - [`Permill`](sp_arithmetic::Permill) - parts of a million.
@@ -625,28 +710,36 @@
 //! - [`from_parts()`](sp_arithmetic::PerThing::from_parts())
 //!
 //! Each of these can be used to construct and represent ratios within our runtime.
+//! You will find types like [`Perbill`](sp_arithmetic::Perbill) being used often in pallet
+//! development.  [`pallet_referenda`] is a good example of a pallet which makes good use of fixed
+//! point arithmetic to calculate
+//!
+//! Let&#39;s examine the usage of `Perbill` and how exactly we can use it as an alternative to floating
+//! point numbers in Substrate development. For this scenario, let&#39;s say we are demonstrating a
+//! _voting_ system which depends on reaching a certain threshold, or percentage, before it can be
+//! deemed valid.
+//!
+//! For most cases, `Perbill` gives us a reasonable amount of precision for most applications, which
+//! is why we&#39;re using it here.
 //!
 //! #### Fixed Point Arithmetic with [`PerThing`](sp_arithmetic::PerThing)
 //!
 //! As stated, one can also perform mathematics using these types directly. For example, finding the
 //! percentage of a particular item:
-//!
 </span><span class="attr">#![doc = <span class="macro">docify::embed!</span>(<span class="string">&quot;./src/reference_docs/safe_defensive_programming.rs&quot;</span>, percent_mult)]
 </span><span class="doccomment">//!
-//! With the knowledge of how these types operate in relation to other numbers, let&#39;s explore how
-//! they&#39;re used in Substrate development.
 //!
-//! ### Fixed Point Math in Substrate Development - Further Context
+//! ### Fixed Point Arithmetic in Practice
 //!
-//! You will find types like [`Perbill`](sp_arithmetic::Perbill) being used often in pallet development.  [`pallet_referenda`] is a good example of a pallet 
-//! which makes good use of fixed point arithmetic to calculate 
+//! todo : explain
 //!
-//! Let&#39;s examine the usage of `Perbill` and how exactly we can use it as an alternative to floating
-//! point numbers in Substrate development. For this scenario, let&#39;s say we are demonstrating a _voting_
-//! system which depends on reaching a certain threshold, or percentage, before it can be deemed valid.
-//! 
-//! For most cases, `Perbill` gives us a reasonable amount of precision for most applications, which is
-//! why we&#39;re using it here.
+</span><span class="attr">#![doc = <span class="macro">docify::embed!</span>(
+    <span class="string">&quot;./src/reference_docs/safe_defensive_programming.rs&quot;</span>,
+    fixed_u64_block_computation_example
+)]
+</span><span class="doccomment">//!
+//!
+//!
 
 </span><span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
@@ -654,7 +747,7 @@
         Overflow,
     }
 
-    <span class="kw">type </span>Address = <span class="kw-2">&amp;</span><span class="lifetime">&#39;static </span>str;
+    <span class="kw">type </span>Address = ();
 
     <span class="kw">struct </span>Runtime;
 
@@ -683,7 +776,6 @@
         </span><span class="kw">let </span>add = u32::MAX.checked_add(<span class="number">10</span>);
         <span class="macro">assert_eq!</span>(add, <span class="prelude-val">None</span>)
     }
-
 
     <span class="attr">#[docify::export]
     </span><span class="kw">fn </span>increase_balance(account: Address, amount: u64) -&gt; <span class="prelude-ty">Result</span>&lt;(), BlockchainError&gt; {
@@ -725,7 +817,7 @@
 
     <span class="attr">#[docify::export]
     </span><span class="kw">fn </span>saturated_add_example() {
-        <span class="comment">// Saturating add simply &#39;saturates
+        <span class="comment">// Saturating add simply saturates
         // to the numeric bound of that type if it overflows.
         </span><span class="kw">let </span>add = u32::MAX.saturating_add(<span class="number">10</span>);
         <span class="macro">assert_eq!</span>(add, u32::MAX)
@@ -739,7 +831,7 @@
     <span class="attr">#[docify::export]
     </span><span class="kw">fn </span>perbill_example() {
         <span class="kw">let </span>p = Perbill::from_percent(<span class="number">80</span>);
-        <span class="comment">// 800000000 bil, or a representative of 0.800000000. 
+        <span class="comment">// 800000000 bil, or a representative of 0.800000000.
         // Precision is in the billions place.
         </span><span class="macro">assert_eq!</span>(p.deconstruct(), <span class="number">800000000</span>);
     }
@@ -748,6 +840,48 @@
     </span><span class="kw">fn </span>percent_example() {
         <span class="kw">let </span>percent = Percent::from_rational(<span class="number">190u32</span>, <span class="number">400u32</span>);
         <span class="macro">assert_eq!</span>(percent.deconstruct(), <span class="number">47</span>);
+    }
+
+    <span class="attr">#[docify::export]
+    </span><span class="kw">fn </span>fixed_u64_block_computation_example() {
+        <span class="comment">// Cores available per block
+        </span><span class="kw">let </span>supply = <span class="number">10u128</span>;
+        <span class="comment">// Cores being ordered per block
+        </span><span class="kw">let </span>demand = <span class="number">5u128</span>;
+        <span class="comment">// Calculate a very rudimentry on-chain price from supply / demand
+        </span><span class="kw">let </span>price = FixedU64::from_rational(demand, supply);
+
+        <span class="comment">// 0.5 DOT per core
+        </span><span class="macro">assert_eq!</span>(price, FixedU64::from_float(<span class="number">0.5</span>));
+
+        <span class="comment">// Now, the story has changed - lots of demand means we buy as many cores as there available.  This also means that price goes up!
+        // For the sake of simplicity, we don&#39;t care about who gets a core - just about our very simple price model
+
+        // Cores available per block
+        </span><span class="kw">let </span>supply = <span class="number">10u128</span>;
+        <span class="comment">// Cores being ordered per block
+        </span><span class="kw">let </span>demand = <span class="number">19u128</span>;
+        <span class="comment">// Calculate a very rudimentry on-chain price from supply / demand
+        </span><span class="kw">let </span>price = FixedU64::from_rational(demand, supply);
+
+        <span class="comment">// 1.9 DOT per core
+        </span><span class="macro">assert_eq!</span>(price, FixedU64::from_float(<span class="number">1.9</span>));
+    }
+
+    <span class="attr">#[docify::export]
+    </span><span class="kw">fn </span>fixed_u64() {
+        <span class="comment">// The difference between this and perthings is perthings operates within the relam of [0, 1]
+        // In cases where we need &gt; 1, we can used fixed types such as FixedU64
+
+        </span><span class="kw">let </span>rational_1 = FixedU64::from_rational(<span class="number">10</span>, <span class="number">5</span>); <span class="comment">//&quot; 200%&quot; aka 2.
+        </span><span class="kw">let </span>rational_2 = FixedU64::from_rational_with_rounding(
+            <span class="number">5</span>,
+            <span class="number">10</span>,
+            sp_arithmetic::Rounding::Down
+        ); <span class="comment">// &quot;50%&quot; aka 0.50...
+
+        </span><span class="macro">assert_eq!</span>(rational_1, (<span class="number">2u64</span>).into());
+        <span class="macro">assert_eq!</span>(rational_2.into_perbill(), Perbill::from_float(<span class="number">0.5</span>));
     }
 }
 </code></pre></div></section></main></body></html>

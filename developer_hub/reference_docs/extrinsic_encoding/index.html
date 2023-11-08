@@ -1,11 +1,12 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Learn about how extrinsics are encoded to be transmitted to a node and stored in blocks."><title>developer_hub::reference_docs::extrinsic_encoding - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="developer_hub" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0 (cc66ad468 2023-10-03)" data-channel="1.73.0" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-1596385f77d47ef2.css" data-theme-dark-css="dark-0a43001d3fc2282c.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-1596385f77d47ef2.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-0a43001d3fc2282c.css"><link rel="stylesheet" href="../../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc mod"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="logo-container" href="../../../developer_hub/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><h2></h2></nav><nav class="sidebar"><a class="logo-container" href="../../../developer_hub/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><h2 class="location"><a href="#">Module extrinsic_encoding</a></h2><div class="sidebar-elems"><section><ul class="block"><li><a href="#modules">Modules</a></li></ul></section></div></nav><main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1>Module <a href="../../index.html">developer_hub</a>::<wbr><a href="../index.html">reference_docs</a>::<wbr><a class="mod" href="#">extrinsic_encoding</a><button id="copy-path" title="Copy item path to clipboard"><img src="../../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../../src/developer_hub/reference_docs/extrinsic_encoding.rs.html#1-288">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Learn about how extrinsics are encoded to be transmitted to a node and stored in blocks.</p>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Learn about how extrinsics are encoded to be transmitted to a node and stored in blocks."><title>developer_hub::reference_docs::extrinsic_encoding - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="developer_hub" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0 (cc66ad468 2023-10-03)" data-channel="1.73.0" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-1596385f77d47ef2.css" data-theme-dark-css="dark-0a43001d3fc2282c.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-1596385f77d47ef2.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-0a43001d3fc2282c.css"><link rel="stylesheet" href="../../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc mod"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="logo-container" href="../../../developer_hub/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><h2></h2></nav><nav class="sidebar"><a class="logo-container" href="../../../developer_hub/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><h2 class="location"><a href="#">Module extrinsic_encoding</a></h2><div class="sidebar-elems"><section><ul class="block"><li><a href="#modules">Modules</a></li></ul></section></div></nav><main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1>Module <a href="../../index.html">developer_hub</a>::<wbr><a href="../index.html">reference_docs</a>::<wbr><a class="mod" href="#">extrinsic_encoding</a><button id="copy-path" title="Copy item path to clipboard"><img src="../../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../../src/developer_hub/reference_docs/extrinsic_encoding.rs.html#1-277">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Learn about how extrinsics are encoded to be transmitted to a node and stored in blocks.</p>
 <h2 id="constructing-and-signing-extrinsics"><a href="#constructing-and-signing-extrinsics">Constructing and Signing Extrinsics</a></h2>
 <p>Extrinsics are payloads that are stored in blocks which are responsible for altering the state
-of a blockchain via the <a href="../blockchain_state_machines/index.html" title="mod developer_hub::reference_docs::blockchain_state_machines"><em>state transition function</em></a>.</p>
+of a blockchain via the <a href="../blockchain_state_machines/index.html" title="mod developer_hub::reference_docs::blockchain_state_machines"><em>state transition
+function</em></a>.</p>
 <p>Substrate is configurable enough that extrinsics can take any format. In practice, runtimes
 tend to use our <a href="../../../sp_runtime/generic/unchecked_extrinsic/struct.UncheckedExtrinsic.html" title="struct sp_runtime::generic::unchecked_extrinsic::UncheckedExtrinsic"><code>sp_runtime::generic::UncheckedExtrinsic</code></a> type to represent extrinsics,
-because it’s generic enough to cater for most (if not all) use cases. In Polkadot, this is configured
-<a href="https://github.com/polkadot-fellows/runtimes/blob/94b2798b69ba6779764e20a50f056e48db78ebef/relay/polkadot/src/lib.rs#L1478">here</a>
+because it’s generic enough to cater for most (if not all) use cases. In Polkadot, this is
+configured <a href="https://github.com/polkadot-fellows/runtimes/blob/94b2798b69ba6779764e20a50f056e48db78ebef/relay/polkadot/src/lib.rs#L1478">here</a>
 at the time of writing.</p>
 <p>What follows is a description of how extrinsics based on this
 <a href="../../../sp_runtime/generic/unchecked_extrinsic/struct.UncheckedExtrinsic.html" title="struct sp_runtime::generic::unchecked_extrinsic::UncheckedExtrinsic"><code>sp_runtime::generic::UncheckedExtrinsic</code></a> type are encoded into bytes. Specifically, we are
@@ -105,54 +106,57 @@ interested in here:</p>
 <ul>
 <li>The actual SCALE encoding of the signed extension type itself; this is what will form our
 <code>signed_extensions_extra</code> bytes.</li>
-<li>An <code>AdditionalSigned</code> type. This is SCALE encoded into the <code>signed_extensions_additional</code>
-data of the <em>signed payload</em> (see below).</li>
+<li>An <code>AdditionalSigned</code> type. This is SCALE encoded into the <code>signed_extensions_additional</code> data
+of the <em>signed payload</em> (see below).</li>
 </ul>
 <p>Either (or both) of these can encode to zero bytes.</p>
 <p>Each chain configures the set of signed extensions that it uses in its runtime configuration.
 At the time of writing, Polkadot configures them
 <a href="https://github.com/polkadot-fellows/runtimes/blob/1dc04eb954eadf8aadb5d83990b89662dbb5a074/relay/polkadot/src/lib.rs#L1432C25-L1432C25">here</a>.
-Some of the common signed extensions are defined [here][frame::deps::frame_system#signed-extensions].</p>
+Some of the common signed extensions are defined
+[here][frame::deps::frame_system#signed-extensions].</p>
 <p>Information about exactly which signed extensions are present on a chain and in what order is
 also a part of the metadata for the chain. For V15 metadata, it can be
 [found here][frame::deps::frame_support::__private::metadata::v15::ExtrinsicMetadata].</p>
 <h3 id="call_data"><a href="#call_data">call_data</a></h3>
 <p>This is the main payload of the extrinsic, which is used to determine how the chain’s state is
-altered. This is defined by the second generic parameter of <a href="../../../sp_runtime/generic/unchecked_extrinsic/struct.UncheckedExtrinsic.html" title="struct sp_runtime::generic::unchecked_extrinsic::UncheckedExtrinsic"><code>sp_runtime::generic::UncheckedExtrinsic</code></a>.</p>
+altered. This is defined by the second generic parameter of
+<a href="../../../sp_runtime/generic/unchecked_extrinsic/struct.UncheckedExtrinsic.html" title="struct sp_runtime::generic::unchecked_extrinsic::UncheckedExtrinsic"><code>sp_runtime::generic::UncheckedExtrinsic</code></a>.</p>
 <p>A call can be anything that implements [<code>Encode</code>][frame::deps::codec::Encode]. In FRAME-based
 runtimes, a call is represented as an enum of enums, where the outer enum represents the FRAME
 pallet being called, and the inner enum represents the call being made within that pallet, and
-any arguments to it. Read more about the call enum <a href="../frame_composite_enums/index.html" title="mod developer_hub::reference_docs::frame_composite_enums">here</a>.</p>
+any arguments to it. Read more about the call enum
+<a href="../frame_composite_enums/index.html" title="mod developer_hub::reference_docs::frame_composite_enums">here</a>.</p>
 <p>FRAME <code>Call</code> enums are automatically generated, and end up looking something like this:</p>
 
 <div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">pub mod </span>call_data {
-    <span class="kw">use </span>parity_scale_codec::{Encode, Decode};
+	<span class="kw">use </span>parity_scale_codec::{Decode, Encode};
 
-    <span class="comment">// The outer enum composes calls within
-    // different pallets together. We have two
-    // pallets, &quot;PalletA&quot; and &quot;PalletB&quot;.
-    </span><span class="attr">#[derive(Encode, Decode)]
-    </span><span class="kw">pub enum </span>Call {
-        <span class="attr">#[codec(index = <span class="number">0</span>)]
-        </span>PalletA(PalletACall),
-        <span class="attr">#[codec(index = <span class="number">7</span>)]
-        </span>PalletB(PalletBCall)
-    }
+	<span class="comment">// The outer enum composes calls within
+	// different pallets together. We have two
+	// pallets, &quot;PalletA&quot; and &quot;PalletB&quot;.
+	</span><span class="attr">#[derive(Encode, Decode)]
+	</span><span class="kw">pub enum </span>Call {
+		<span class="attr">#[codec(index = <span class="number">0</span>)]
+		</span>PalletA(PalletACall),
+		<span class="attr">#[codec(index = <span class="number">7</span>)]
+		</span>PalletB(PalletBCall),
+	}
 
-    <span class="comment">// An inner enum represents the calls within
-    // a specific pallet. &quot;PalletA&quot; has one call,
-    // &quot;Foo&quot;.
-    </span><span class="attr">#[derive(Encode, Decode)]
-    </span><span class="kw">pub enum </span>PalletACall {
-        <span class="attr">#[codec(index = <span class="number">0</span>)]
-        </span>Foo(String)
-    }
+	<span class="comment">// An inner enum represents the calls within
+	// a specific pallet. &quot;PalletA&quot; has one call,
+	// &quot;Foo&quot;.
+	</span><span class="attr">#[derive(Encode, Decode)]
+	</span><span class="kw">pub enum </span>PalletACall {
+		<span class="attr">#[codec(index = <span class="number">0</span>)]
+		</span>Foo(String),
+	}
 
-    <span class="attr">#[derive(Encode, Decode)]
-    </span><span class="kw">pub enum </span>PalletBCall {
-        <span class="attr">#[codec(index = <span class="number">0</span>)]
-        </span>Bar(String)
-    }
+	<span class="attr">#[derive(Encode, Decode)]
+	</span><span class="kw">pub enum </span>PalletBCall {
+		<span class="attr">#[codec(index = <span class="number">0</span>)]
+		</span>Bar(String),
+	}
 }</code></pre></div>
 <p>In pseudo-code, this <code>Call</code> enum encodes equivalently to:</p>
 <div class="example-wrap"><pre class="language-text"><code>call_data = concat(
@@ -162,12 +166,12 @@ any arguments to it. Read more about the call enum <a href="../frame_composite_e
 )
 </code></pre></div>
 <ul>
-<li><code>pallet_index</code> is a single byte denoting the index of the pallet that we are calling into,
-and is what the tag of the outermost enum will encode to.</li>
+<li><code>pallet_index</code> is a single byte denoting the index of the pallet that we are calling into, and
+is what the tag of the outermost enum will encode to.</li>
 <li><code>call_index</code> is a single byte denoting the index of the call that we are making the pallet,
 and is what the tag of the inner enum will encode to.</li>
-<li><code>call_args</code> are the SCALE encoded bytes for each of the arguments that the call expects,
-and are typically provided as values to the inner enum.</li>
+<li><code>call_args</code> are the SCALE encoded bytes for each of the arguments that the call expects, and
+are typically provided as values to the inner enum.</li>
 </ul>
 <p>Information about the pallets that exist for a chain (including their indexes), the calls
 available in each pallet (including their indexes), and the arguments required for each call
@@ -200,69 +204,57 @@ for us, given <code>call_data</code> and a tuple of signed extensions.</p>
 as follows:</p>
 
 <div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">pub mod </span>encoding_example {
-    <span class="kw">use </span><span class="kw">crate</span>::reference_docs::signed_extensions::signed_extensions_example;
-    <span class="kw">use </span><span class="kw">super</span>::call_data::{ Call, PalletACall };
-    <span class="kw">use </span>sp_runtime::{MultiAddress, MultiSignature};
-    <span class="kw">use </span>sp_runtime::generic::{UncheckedExtrinsic, SignedPayload};
-    <span class="kw">use </span>sp_core::crypto::AccountId32;
-    <span class="kw">use </span>sp_keyring::sr25519::Keyring;
-    <span class="kw">use </span>parity_scale_codec::Encode;
+	<span class="kw">use </span><span class="kw">super</span>::call_data::{Call, PalletACall};
+	<span class="kw">use </span><span class="kw">crate</span>::reference_docs::signed_extensions::signed_extensions_example;
+	<span class="kw">use </span>parity_scale_codec::Encode;
+	<span class="kw">use </span>sp_core::crypto::AccountId32;
+	<span class="kw">use </span>sp_keyring::sr25519::Keyring;
+	<span class="kw">use </span>sp_runtime::{
+		generic::{SignedPayload, UncheckedExtrinsic},
+		MultiAddress, MultiSignature,
+	};
 
-    <span class="comment">// Define some signed extensions to use. We&#39;ll use a couple of examples
-    // from the signed extensions reference doc.
-    </span><span class="kw">type </span>SignedExtensions = (
-        signed_extensions_example::AddToPayload,
-        signed_extensions_example::AddToSignaturePayload,
-    );
+	<span class="comment">// Define some signed extensions to use. We&#39;ll use a couple of examples
+	// from the signed extensions reference doc.
+	</span><span class="kw">type </span>SignedExtensions =
+		(signed_extensions_example::AddToPayload, signed_extensions_example::AddToSignaturePayload);
 
-    <span class="comment">// We&#39;ll use `UncheckedExtrinsic` to encode our extrinsic for us. We set
-    // the address and signature type to those used on Polkadot, use our custom
-    // `Call` type, and use our custom set of `SignedExtensions`.
-    </span><span class="kw">type </span>Extrinsic = UncheckedExtrinsic&lt;
-        MultiAddress&lt;AccountId32, ()&gt;,
-        Call,
-        MultiSignature,
-        SignedExtensions
-    &gt;;
+	<span class="comment">// We&#39;ll use `UncheckedExtrinsic` to encode our extrinsic for us. We set
+	// the address and signature type to those used on Polkadot, use our custom
+	// `Call` type, and use our custom set of `SignedExtensions`.
+	</span><span class="kw">type </span>Extrinsic =
+		UncheckedExtrinsic&lt;MultiAddress&lt;AccountId32, ()&gt;, Call, MultiSignature, SignedExtensions&gt;;
 
-    <span class="kw">pub fn </span>encode_demo_extrinsic() -&gt; Vec&lt;u8&gt; {
-        <span class="comment">// The &quot;from&quot; address will be our Alice dev account.
-        </span><span class="kw">let </span>from_address = MultiAddress::&lt;AccountId32, ()&gt;::Id(Keyring::Alice.to_account_id());
+	<span class="kw">pub fn </span>encode_demo_extrinsic() -&gt; Vec&lt;u8&gt; {
+		<span class="comment">// The &quot;from&quot; address will be our Alice dev account.
+		</span><span class="kw">let </span>from_address = MultiAddress::&lt;AccountId32, ()&gt;::Id(Keyring::Alice.to_account_id());
 
-        <span class="comment">// We provide some values for our expected signed extensions.
-        </span><span class="kw">let </span>signed_extensions = (
-            signed_extensions_example::AddToPayload(<span class="number">1</span>),
-            signed_extensions_example::AddToSignaturePayload
-        );
+		<span class="comment">// We provide some values for our expected signed extensions.
+		</span><span class="kw">let </span>signed_extensions = (
+			signed_extensions_example::AddToPayload(<span class="number">1</span>),
+			signed_extensions_example::AddToSignaturePayload,
+		);
 
-        <span class="comment">// Construct our call data:
-        </span><span class="kw">let </span>call_data = Call::PalletA(PalletACall::Foo(<span class="string">&quot;Hello&quot;</span>.to_string()));
+		<span class="comment">// Construct our call data:
+		</span><span class="kw">let </span>call_data = Call::PalletA(PalletACall::Foo(<span class="string">&quot;Hello&quot;</span>.to_string()));
 
-        <span class="comment">// The signed payload. This takes care of encoding the call_data,
-        // signed_extensions_extra and signed_extensions_additional, and hashing
-        // the result if it&#39;s &gt; 256 bytes:
-        </span><span class="kw">let </span>signed_payload = SignedPayload::new(
-            <span class="kw-2">&amp;</span>call_data,
-            signed_extensions.clone(),
-        );
+		<span class="comment">// The signed payload. This takes care of encoding the call_data,
+		// signed_extensions_extra and signed_extensions_additional, and hashing
+		// the result if it&#39;s &gt; 256 bytes:
+		</span><span class="kw">let </span>signed_payload = SignedPayload::new(<span class="kw-2">&amp;</span>call_data, signed_extensions.clone());
 
-        <span class="comment">// Sign the signed payload with our Alice dev account&#39;s private key,
-        // and wrap the signature into the expected type:
-        </span><span class="kw">let </span>signature = {
-            <span class="kw">let </span>sig = Keyring::Alice.sign(<span class="kw-2">&amp;</span>signed_payload.encode());
-            MultiSignature::Sr25519(sig)
-        };
+		<span class="comment">// Sign the signed payload with our Alice dev account&#39;s private key,
+		// and wrap the signature into the expected type:
+		</span><span class="kw">let </span>signature = {
+			<span class="kw">let </span>sig = Keyring::Alice.sign(<span class="kw-2">&amp;</span>signed_payload.encode());
+			MultiSignature::Sr25519(sig)
+		};
 
-        <span class="comment">// Now, we can build and encode our extrinsic:
-        </span><span class="kw">let </span>ext = Extrinsic::new_signed(
-            call_data,
-            from_address,
-            signature,
-            signed_extensions
-        );
+		<span class="comment">// Now, we can build and encode our extrinsic:
+		</span><span class="kw">let </span>ext = Extrinsic::new_signed(call_data, from_address, signature, signed_extensions);
 
-        <span class="kw">let </span>encoded_ext = ext.encode();
-        encoded_ext
-    }
+		<span class="kw">let </span>encoded_ext = ext.encode();
+		encoded_ext
+	}
 }</code></pre></div>
 </div></details><h2 id="modules" class="small-section-header"><a href="#modules">Modules</a></h2><ul class="item-table"><li><div class="item-name"><a class="mod" href="call_data/index.html" title="mod developer_hub::reference_docs::extrinsic_encoding::call_data">call_data</a></div></li><li><div class="item-name"><a class="mod" href="encoding_example/index.html" title="mod developer_hub::reference_docs::extrinsic_encoding::encoding_example">encoding_example</a></div></li></ul></section></div></main></body></html>
