@@ -128,7 +128,7 @@ the developer’s preference:</p>
 overflow in runtime. For example, adding to <code>u32::MAX</code> would simply limit itself to <code>u32::MAX</code>:</p>
 
 <div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>saturated_add_example() {
-    <span class="comment">// Saturating add simply saturates
+    <span class="comment">// Saturating add simply &#39;saturates
     // to the numeric bound of that type if it overflows.
     </span><span class="kw">let </span>add = u32::MAX.saturating_add(<span class="number">10</span>);
     <span class="macro">assert_eq!</span>(add, u32::MAX)
