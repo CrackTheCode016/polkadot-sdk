@@ -441,6 +441,33 @@
 <a href="#441" id="441">441</a>
 <a href="#442" id="442">442</a>
 <a href="#443" id="443">443</a>
+<a href="#444" id="444">444</a>
+<a href="#445" id="445">445</a>
+<a href="#446" id="446">446</a>
+<a href="#447" id="447">447</a>
+<a href="#448" id="448">448</a>
+<a href="#449" id="449">449</a>
+<a href="#450" id="450">450</a>
+<a href="#451" id="451">451</a>
+<a href="#452" id="452">452</a>
+<a href="#453" id="453">453</a>
+<a href="#454" id="454">454</a>
+<a href="#455" id="455">455</a>
+<a href="#456" id="456">456</a>
+<a href="#457" id="457">457</a>
+<a href="#458" id="458">458</a>
+<a href="#459" id="459">459</a>
+<a href="#460" id="460">460</a>
+<a href="#461" id="461">461</a>
+<a href="#462" id="462">462</a>
+<a href="#463" id="463">463</a>
+<a href="#464" id="464">464</a>
+<a href="#465" id="465">465</a>
+<a href="#466" id="466">466</a>
+<a href="#467" id="467">467</a>
+<a href="#468" id="468">468</a>
+<a href="#469" id="469">469</a>
+<a href="#470" id="470">470</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! As our runtime should _never_ panic; this includes eliminating the possibility of integer
 //! overflows, converting between number types, or even handling floating point usage with fixed
 //! point arithmetic to mitigate issues that come with floating point calculations.
@@ -582,6 +609,12 @@
 //! 2. **Saturated** operations - limited to the lower and upper bounds of a number type,
 //! 3. **Wrapped** operations (the default) - wrap around to above or below the bounds of a type,
 //!
+//!
+//! Known scenarios that could be fallible should be avoided: i.e., avoiding the possibility of
+//! dividing/modulo by zero at any point should be mitigated.  One should be, instead, opting for a
+//! `checked_` method in order to introduce safe arithmetic in their code.
+//!
+//!
 //! #### The problem with &#39;default&#39; wrapped operations
 //!
 //! **Wrapped operations** cause the overflow to wrap around to either the maximum or minimum of
@@ -667,7 +700,8 @@
 //! _represents_ a floating point number in base 10, i.e., a **fixed point number**, can be used
 //! instead.
 //!
-//! For use cases which operate within the range of `[0, 1]` types which implement [`PerThing`](sp_arithmetic::PerThing) are used:
+//! For use cases which operate within the range of `[0, 1]` types which implement
+//! [`PerThing`](sp_arithmetic::PerThing) are used:
 //! - **[`Perbill`](sp_arithmetic::Perbill), parts of a billion**
 </span><span class="attr">#![doc = <span class="macro">docify::embed!</span>(<span class="string">&quot;./src/reference_docs/safe_defensive_programming.rs&quot;</span>, perbill_example)]
 </span><span class="doccomment">//!
@@ -675,21 +709,23 @@
 </span><span class="attr">#![doc = <span class="macro">docify::embed!</span>(<span class="string">&quot;./src/reference_docs/safe_defensive_programming.rs&quot;</span>, percent_example)]
 </span><span class="doccomment">//!
 //! Note that `190 / 400 = 0.475`, and that `Percent` represents it as a _rounded down_, fixed point
-//! number (`47`). Unlike primitive types, types that implement [`PerThing`](sp_arithmetic::PerThing) will also not overflow,
-//! and are therefore safe to use. They adopt the same behavior that a saturated calculation would
-//! provide, meaning that if one is to go over &quot;100%&quot;, it wouldn&#39;t overflow, but simply stop at the
-//! upper or lower bound.
+//! number (`47`). Unlike primitive types, types that implement
+//! [`PerThing`](sp_arithmetic::PerThing) will also not overflow, and are therefore safe to use.
+//! They adopt the same behavior that a saturated calculation would provide, meaning that if one is
+//! to go over &quot;100%&quot;, it wouldn&#39;t overflow, but simply stop at the upper or lower bound.
 //!
-//! For use cases which require precision beyond the range of `[0, 1]`, there are a number of other fixed-point types to use:
+//! For use cases which require precision beyond the range of `[0, 1]`, there are a number of other
+//! fixed-point types to use:
 //!
 //! - [`FixedU64`](sp_arithmetic::FixedU64) and [`FixedI64`](sp_arithmetic::FixedI64)
 //! - [`FixedI128`](sp_arithmetic::FixedU128) and [`FixedU128`](sp_arithmetic::FixedI128)
 //!
-//! Similar to types that implement [`PerThing`](sp_arithmetic::PerThing), these are also fixed-point types, however, they are able to represent larger numbers:
-//!
+//! Similar to types that implement [`PerThing`](sp_arithmetic::PerThing), these are also
+//! fixed-point types, however, they are able to represent larger numbers:
 </span><span class="attr">#![doc = <span class="macro">docify::embed!</span>(<span class="string">&quot;./src/reference_docs/safe_defensive_programming.rs&quot;</span>, fixed_u64)]
 </span><span class="doccomment">//!
-//! Let&#39;s now explore these types in practice, and how they may be used with pallets to perform safer calculations in the runtime.
+//! Let&#39;s now explore these types in practice, and how they may be used with pallets to perform
+//! safer calculations in the runtime.
 //!
 //! ### &#39;PerThing&#39; In Practice
 //!
@@ -701,13 +737,6 @@
 //! - [`Percent`](sp_arithmetic::Percent) - parts of one hundred.
 //! - [`Permill`](sp_arithmetic::Permill) - parts of a million.
 //! - [`Perbill`](sp_arithmetic::Perbill) - parts of a billion.
-//!
-//! Because each of these implement the same trait, `PerThing`, we have access to a few widely used
-//! methods:
-//!
-//! - [`from_rational()`](sp_arithmetic::PerThing::from_rational())
-//! - [`from_percent()`](sp_arithmetic::PerThing::from_percent())
-//! - [`from_parts()`](sp_arithmetic::PerThing::from_parts())
 //!
 //! Each of these can be used to construct and represent ratios within our runtime.
 //! You will find types like [`Perbill`](sp_arithmetic::Perbill) being used often in pallet
@@ -729,159 +758,184 @@
 </span><span class="attr">#![doc = <span class="macro">docify::embed!</span>(<span class="string">&quot;./src/reference_docs/safe_defensive_programming.rs&quot;</span>, percent_mult)]
 </span><span class="doccomment">//!
 //!
-//! ### Fixed Point Arithmetic in Practice
+//! ### Fixed Point Types in Practice
 //!
-//! todo : explain
-//!
+//! As said earlier, if one needs to exceed the value of one, then
+//! [`FixedU64`](sp_arithmetic::FixedU64) (and its signed and `u128` counterparts) can be utilized.
+//! Take for example this very rudimentary pricing mechanism, where we wish to calculate the demand
+//! / supply to get a price for some on-chain compute:
 </span><span class="attr">#![doc = <span class="macro">docify::embed!</span>(
     <span class="string">&quot;./src/reference_docs/safe_defensive_programming.rs&quot;</span>,
     fixed_u64_block_computation_example
 )]
 </span><span class="doccomment">//!
+//! For a much more comprehensive example, be sure to look at the source for [`pallet_broker`]
 //!
+//! #### Fixed Point Types in Practice
 //!
+//! Just as with [`PerThing`](sp_arithmetic::PerThing), you can also perform regular mathematical
+//! expressions:
+</span><span class="attr">#![doc = <span class="macro">docify::embed!</span>(
+    <span class="string">&quot;./src/reference_docs/safe_defensive_programming.rs&quot;</span>,
+    fixed_u64_operation_example
+)]
+</span><span class="doccomment">//!
 
 </span><span class="attr">#[cfg(test)]
 </span><span class="kw">mod </span>tests {
-    <span class="kw">enum </span>BlockchainError {
-        Overflow,
-    }
+	<span class="kw">enum </span>BlockchainError {
+		Overflow,
+	}
 
-    <span class="kw">type </span>Address = ();
+	<span class="kw">type </span>Address = ();
 
-    <span class="kw">struct </span>Runtime;
+	<span class="kw">struct </span>Runtime;
 
-    <span class="kw">impl </span>Runtime {
-        <span class="kw">fn </span>get_balance(account: Address) -&gt; u64 {
-            <span class="number">0
-        </span>}
-    }
+	<span class="kw">impl </span>Runtime {
+		<span class="kw">fn </span>get_balance(account: Address) -&gt; u64 {
+			<span class="number">0
+		</span>}
+	}
 
-    <span class="attr">#[docify::export]
-    </span><span class="kw">fn </span>naive_add(x: u8, y: u8) -&gt; u8 {
-        x + y
-    }
+	<span class="attr">#[docify::export]
+	</span><span class="kw">fn </span>naive_add(x: u8, y: u8) -&gt; u8 {
+		x + y
+	}
 
-    <span class="attr">#[docify::export]
-    </span><span class="kw">fn </span>checked_add_example() {
-        <span class="comment">// This is valid, as 20 is perfectly within the bounds of u32.
-        </span><span class="kw">let </span>add = (<span class="number">10u32</span>).checked_add(<span class="number">10</span>);
-        <span class="macro">assert_eq!</span>(add, <span class="prelude-val">Some</span>(<span class="number">20</span>))
-    }
+	<span class="attr">#[docify::export]
+	</span><span class="kw">fn </span>checked_add_example() {
+		<span class="comment">// This is valid, as 20 is perfectly within the bounds of u32.
+		</span><span class="kw">let </span>add = (<span class="number">10u32</span>).checked_add(<span class="number">10</span>);
+		<span class="macro">assert_eq!</span>(add, <span class="prelude-val">Some</span>(<span class="number">20</span>))
+	}
 
-    <span class="attr">#[docify::export]
-    </span><span class="kw">fn </span>checked_add_handle_error_example() {
-        <span class="comment">// This is invalid - we are adding something to the max of u32::MAX, which would overflow.
-        // Luckily, checked_add just marks this as None!
-        </span><span class="kw">let </span>add = u32::MAX.checked_add(<span class="number">10</span>);
-        <span class="macro">assert_eq!</span>(add, <span class="prelude-val">None</span>)
-    }
+	<span class="attr">#[docify::export]
+	</span><span class="kw">fn </span>checked_add_handle_error_example() {
+		<span class="comment">// This is invalid - we are adding something to the max of u32::MAX, which would overflow.
+		// Luckily, checked_add just marks this as None!
+		</span><span class="kw">let </span>add = u32::MAX.checked_add(<span class="number">10</span>);
+		<span class="macro">assert_eq!</span>(add, <span class="prelude-val">None</span>)
+	}
 
-    <span class="attr">#[docify::export]
-    </span><span class="kw">fn </span>increase_balance(account: Address, amount: u64) -&gt; <span class="prelude-ty">Result</span>&lt;(), BlockchainError&gt; {
-        <span class="comment">// Get a user&#39;s current balance
-        </span><span class="kw">let </span>balance = Runtime::get_balance(account)<span class="question-mark">?</span>;
-        <span class="comment">// SAFELY increase the balance by some amount
-        </span><span class="kw">if let </span><span class="prelude-val">Some</span>(new_balance) = balance.checked_add(amount) {
-            Runtime::set_balance(account, new_balance);
-            <span class="kw">return </span><span class="prelude-val">Ok</span>(());
-        } <span class="kw">else </span>{
-            <span class="kw">return </span><span class="prelude-val">Err</span>(BlockchainError::Overflow);
-        }
-    }
+	<span class="attr">#[docify::export]
+	</span><span class="kw">fn </span>increase_balance(account: Address, amount: u64) -&gt; <span class="prelude-ty">Result</span>&lt;(), BlockchainError&gt; {
+		<span class="comment">// Get a user&#39;s current balance
+		</span><span class="kw">let </span>balance = Runtime::get_balance(account)<span class="question-mark">?</span>;
+		<span class="comment">// SAFELY increase the balance by some amount
+		</span><span class="kw">if let </span><span class="prelude-val">Some</span>(new_balance) = balance.checked_add(amount) {
+			Runtime::set_balance(account, new_balance);
+			<span class="kw">return </span><span class="prelude-val">Ok</span>(());
+		} <span class="kw">else </span>{
+			<span class="kw">return </span><span class="prelude-val">Err</span>(BlockchainError::Overflow);
+		}
+	}
 
-    <span class="attr">#[docify::export]
-    </span><span class="kw">fn </span>increase_balance_match(account: Address, amount: u64) -&gt; <span class="prelude-ty">Result</span>&lt;(), BlockchainError&gt; {
-        <span class="comment">// Get a user&#39;s current balance
-        </span><span class="kw">let </span>balance = Runtime::get_balance(account)<span class="question-mark">?</span>;
-        <span class="comment">// SAFELY increase the balance by some amount
-        </span><span class="kw">let </span>new_balance = <span class="kw">match </span>balance.checked_add(amount) {
-            <span class="prelude-val">Some</span>(balance) =&gt; balance,
-            <span class="prelude-val">None </span>=&gt; {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(BlockchainError::Overflow);
-            }
-        };
-        Runtime::set_balance(account, new_balance);
-        <span class="prelude-val">Ok</span>(())
-    }
+	<span class="attr">#[docify::export]
+	</span><span class="kw">fn </span>increase_balance_match(account: Address, amount: u64) -&gt; <span class="prelude-ty">Result</span>&lt;(), BlockchainError&gt; {
+		<span class="comment">// Get a user&#39;s current balance
+		</span><span class="kw">let </span>balance = Runtime::get_balance(account)<span class="question-mark">?</span>;
+		<span class="comment">// SAFELY increase the balance by some amount
+		</span><span class="kw">let </span>new_balance = <span class="kw">match </span>balance.checked_add(amount) {
+			<span class="prelude-val">Some</span>(balance) =&gt; balance,
+			<span class="prelude-val">None </span>=&gt; {
+				<span class="kw">return </span><span class="prelude-val">Err</span>(BlockchainError::Overflow);
+			},
+		};
+		Runtime::set_balance(account, new_balance);
+		<span class="prelude-val">Ok</span>(())
+	}
 
-    <span class="attr">#[docify::export]
-    </span><span class="kw">fn </span>increase_balance_result(account: Address, amount: u64) -&gt; <span class="prelude-ty">Result</span>&lt;(), BlockchainError&gt; {
-        <span class="comment">// Get a user&#39;s current balance
-        </span><span class="kw">let </span>balance = Runtime::get_balance(account)<span class="question-mark">?</span>;
-        <span class="comment">// SAFELY increase the balance by some amount - this time, by using `ok_or`
-        </span><span class="kw">let </span>new_balance = balance.checked_add(amount).ok_or_else(|| BlockchainError::Overflow)<span class="question-mark">?</span>;
-        Runtime::set_balance(account, new_balance);
-        <span class="prelude-val">Ok</span>(())
-    }
+	<span class="attr">#[docify::export]
+	</span><span class="kw">fn </span>increase_balance_result(account: Address, amount: u64) -&gt; <span class="prelude-ty">Result</span>&lt;(), BlockchainError&gt; {
+		<span class="comment">// Get a user&#39;s current balance
+		</span><span class="kw">let </span>balance = Runtime::get_balance(account)<span class="question-mark">?</span>;
+		<span class="comment">// SAFELY increase the balance by some amount - this time, by using `ok_or`
+		</span><span class="kw">let </span>new_balance = balance.checked_add(amount).ok_or_else(|| BlockchainError::Overflow)<span class="question-mark">?</span>;
+		Runtime::set_balance(account, new_balance);
+		<span class="prelude-val">Ok</span>(())
+	}
 
-    <span class="attr">#[docify::export]
-    </span><span class="kw">fn </span>saturated_add_example() {
-        <span class="comment">// Saturating add simply saturates
-        // to the numeric bound of that type if it overflows.
-        </span><span class="kw">let </span>add = u32::MAX.saturating_add(<span class="number">10</span>);
-        <span class="macro">assert_eq!</span>(add, u32::MAX)
-    }
-    <span class="attr">#[docify::export]
-    </span><span class="kw">fn </span>percent_mult() {
-        <span class="kw">let </span>percent = Percent::from_rational(<span class="number">5u32</span>, <span class="number">100u32</span>); <span class="comment">// aka, 5%
-        </span><span class="kw">let </span>five_percent_of_100 = percent * <span class="number">100u32</span>; <span class="comment">// 5% of 100 is 5.
-        </span><span class="macro">assert_eq!</span>(five_percent_of_100, <span class="number">5</span>)
-    }
-    <span class="attr">#[docify::export]
-    </span><span class="kw">fn </span>perbill_example() {
-        <span class="kw">let </span>p = Perbill::from_percent(<span class="number">80</span>);
-        <span class="comment">// 800000000 bil, or a representative of 0.800000000.
-        // Precision is in the billions place.
-        </span><span class="macro">assert_eq!</span>(p.deconstruct(), <span class="number">800000000</span>);
-    }
+	<span class="attr">#[docify::export]
+	</span><span class="kw">fn </span>saturated_add_example() {
+		<span class="comment">// Saturating add simply saturates
+		// to the numeric bound of that type if it overflows.
+		</span><span class="kw">let </span>add = u32::MAX.saturating_add(<span class="number">10</span>);
+		<span class="macro">assert_eq!</span>(add, u32::MAX)
+	}
+	<span class="attr">#[docify::export]
+	</span><span class="kw">fn </span>percent_mult() {
+		<span class="kw">let </span>percent = Percent::from_rational(<span class="number">5u32</span>, <span class="number">100u32</span>); <span class="comment">// aka, 5%
+		</span><span class="kw">let </span>five_percent_of_100 = percent * <span class="number">100u32</span>; <span class="comment">// 5% of 100 is 5.
+		</span><span class="macro">assert_eq!</span>(five_percent_of_100, <span class="number">5</span>)
+	}
+	<span class="attr">#[docify::export]
+	</span><span class="kw">fn </span>perbill_example() {
+		<span class="kw">let </span>p = Perbill::from_percent(<span class="number">80</span>);
+		<span class="comment">// 800000000 bil, or a representative of 0.800000000.
+		// Precision is in the billions place.
+		</span><span class="macro">assert_eq!</span>(p.deconstruct(), <span class="number">800000000</span>);
+	}
 
-    <span class="attr">#[docify::export]
-    </span><span class="kw">fn </span>percent_example() {
-        <span class="kw">let </span>percent = Percent::from_rational(<span class="number">190u32</span>, <span class="number">400u32</span>);
-        <span class="macro">assert_eq!</span>(percent.deconstruct(), <span class="number">47</span>);
-    }
+	<span class="attr">#[docify::export]
+	</span><span class="kw">fn </span>percent_example() {
+		<span class="kw">let </span>percent = Percent::from_rational(<span class="number">190u32</span>, <span class="number">400u32</span>);
+		<span class="macro">assert_eq!</span>(percent.deconstruct(), <span class="number">47</span>);
+	}
 
-    <span class="attr">#[docify::export]
-    </span><span class="kw">fn </span>fixed_u64_block_computation_example() {
-        <span class="comment">// Cores available per block
-        </span><span class="kw">let </span>supply = <span class="number">10u128</span>;
-        <span class="comment">// Cores being ordered per block
-        </span><span class="kw">let </span>demand = <span class="number">5u128</span>;
-        <span class="comment">// Calculate a very rudimentry on-chain price from supply / demand
-        </span><span class="kw">let </span>price = FixedU64::from_rational(demand, supply);
+	<span class="attr">#[docify::export]
+	</span><span class="kw">fn </span>fixed_u64_block_computation_example() {
+		<span class="comment">// Cores available per block
+		</span><span class="kw">let </span>supply = <span class="number">10u128</span>;
+		<span class="comment">// Cores being ordered per block
+		</span><span class="kw">let </span>demand = <span class="number">5u128</span>;
+		<span class="comment">// Calculate a very rudimentry on-chain price from supply / demand
+		</span><span class="kw">let </span>price = FixedU64::from_rational(demand, supply);
 
-        <span class="comment">// 0.5 DOT per core
-        </span><span class="macro">assert_eq!</span>(price, FixedU64::from_float(<span class="number">0.5</span>));
+		<span class="comment">// 0.5 DOT per core
+		</span><span class="macro">assert_eq!</span>(price, FixedU64::from_float(<span class="number">0.5</span>));
 
-        <span class="comment">// Now, the story has changed - lots of demand means we buy as many cores as there available.  This also means that price goes up!
-        // For the sake of simplicity, we don&#39;t care about who gets a core - just about our very simple price model
+		<span class="comment">// Now, the story has changed - lots of demand means we buy as many cores as there
+		// available.  This also means that price goes up! For the sake of simplicity, we don&#39;t care
+		// about who gets a core - just about our very simple price model
 
-        // Cores available per block
-        </span><span class="kw">let </span>supply = <span class="number">10u128</span>;
-        <span class="comment">// Cores being ordered per block
-        </span><span class="kw">let </span>demand = <span class="number">19u128</span>;
-        <span class="comment">// Calculate a very rudimentry on-chain price from supply / demand
-        </span><span class="kw">let </span>price = FixedU64::from_rational(demand, supply);
+		// Cores available per block
+		</span><span class="kw">let </span>supply = <span class="number">10u128</span>;
+		<span class="comment">// Cores being ordered per block
+		</span><span class="kw">let </span>demand = <span class="number">19u128</span>;
+		<span class="comment">// Calculate a very rudimentary on-chain price from supply / demand
+		</span><span class="kw">let </span>price = FixedU64::from_rational(demand, supply);
 
-        <span class="comment">// 1.9 DOT per core
-        </span><span class="macro">assert_eq!</span>(price, FixedU64::from_float(<span class="number">1.9</span>));
-    }
+		<span class="comment">// 1.9 DOT per core
+		</span><span class="macro">assert_eq!</span>(price, FixedU64::from_float(<span class="number">1.9</span>));
+	}
 
-    <span class="attr">#[docify::export]
-    </span><span class="kw">fn </span>fixed_u64() {
-        <span class="comment">// The difference between this and perthings is perthings operates within the relam of [0, 1]
-        // In cases where we need &gt; 1, we can used fixed types such as FixedU64
+	<span class="attr">#[docify::export]
+	</span><span class="kw">fn </span>fixed_u64() {
+		<span class="comment">// The difference between this and perthings is perthings operates within the relam of [0,
+		// 1] In cases where we need &gt; 1, we can used fixed types such as FixedU64
 
-        </span><span class="kw">let </span>rational_1 = FixedU64::from_rational(<span class="number">10</span>, <span class="number">5</span>); <span class="comment">//&quot; 200%&quot; aka 2.
-        </span><span class="kw">let </span>rational_2 = FixedU64::from_rational_with_rounding(
-            <span class="number">5</span>,
-            <span class="number">10</span>,
-            sp_arithmetic::Rounding::Down
-        ); <span class="comment">// &quot;50%&quot; aka 0.50...
+		</span><span class="kw">let </span>rational_1 = FixedU64::from_rational(<span class="number">10</span>, <span class="number">5</span>); <span class="comment">//&quot; 200%&quot; aka 2.
+		</span><span class="kw">let </span>rational_2 =
+			FixedU64::from_rational_with_rounding(<span class="number">5</span>, <span class="number">10</span>, sp_arithmetic::Rounding::Down); <span class="comment">// &quot;50%&quot; aka 0.50...
 
-        </span><span class="macro">assert_eq!</span>(rational_1, (<span class="number">2u64</span>).into());
-        <span class="macro">assert_eq!</span>(rational_2.into_perbill(), Perbill::from_float(<span class="number">0.5</span>));
-    }
+		</span><span class="macro">assert_eq!</span>(rational_1, (<span class="number">2u64</span>).into());
+		<span class="macro">assert_eq!</span>(rational_2.into_perbill(), Perbill::from_float(<span class="number">0.5</span>));
+	}
+
+	<span class="attr">#[docify::export]
+	</span><span class="kw">fn </span>fixed_u64_operation_example() {
+		<span class="kw">let </span>rational_1 = FixedU64::from_rational(<span class="number">10</span>, <span class="number">5</span>); <span class="comment">// &quot;200%&quot; aka 2.
+		</span><span class="kw">let </span>rational_2 = FixedU64::from_rational(<span class="number">8</span>, <span class="number">5</span>); <span class="comment">// &quot;160%&quot; aka 1.6.
+
+		</span><span class="kw">let </span>addition = rational_1 + rational_2;
+		<span class="kw">let </span>multiplication = rational_1 * rational_2;
+		<span class="kw">let </span>division = rational_1 / rational_2;
+		<span class="kw">let </span>subtraction = rational_1 - rational_2;
+
+		<span class="macro">assert_eq!</span>(addition, FixedU64::from_float(<span class="number">3.6</span>));
+		<span class="macro">assert_eq!</span>(multiplication, FixedU64::from_float(<span class="number">3.2</span>));
+		<span class="macro">assert_eq!</span>(division, FixedU64::from_float(<span class="number">1.25</span>));
+		<span class="macro">assert_eq!</span>(subtraction, FixedU64::from_float(<span class="number">0.4</span>));
+	}
 }
 </code></pre></div></section></main></body></html>
