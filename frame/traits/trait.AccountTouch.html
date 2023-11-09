@@ -7,7 +7,7 @@
         asset: AssetId,
         who: AccountId,
         depositor: AccountId
-    ) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.73.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.73.0/std/primitive.unit.html">()</a>, DispatchError&gt;;
+    ) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.73.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.73.0/std/primitive.unit.html">()</a>, <a class="enum" href="../../sp_runtime/enum.DispatchError.html" title="enum sp_runtime::DispatchError">DispatchError</a>&gt;;
 }</code></pre><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Trait for creating an asset account with a deposit taken from a designated depositor specified
 by the client.</p>
 </div></details><h2 id="required-associated-types" class="small-section-header">Required Associated Types<a href="#required-associated-types" class="anchor">§</a></h2><div class="methods"><details class="toggle" open><summary><section id="associatedtype.Balance" class="method"><h4 class="code-header">type <a href="#associatedtype.Balance" class="associatedtype">Balance</a></h4></section></summary><div class="docblock"><p>The type for currency units of the deposit.</p>
@@ -16,5 +16,5 @@ by the client.</p>
     asset: AssetId,
     who: AccountId,
     depositor: AccountId
-) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.73.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.73.0/std/primitive.unit.html">()</a>, DispatchError&gt;</h4></section></summary><div class="docblock"><p>Create an account for <code>who</code> of the <code>asset</code> with a deposit taken from the <code>depositor</code>.</p>
+) -&gt; <a class="enum" href="https://doc.rust-lang.org/1.73.0/core/result/enum.Result.html" title="enum core::result::Result">Result</a>&lt;<a class="primitive" href="https://doc.rust-lang.org/1.73.0/std/primitive.unit.html">()</a>, <a class="enum" href="../../sp_runtime/enum.DispatchError.html" title="enum sp_runtime::DispatchError">DispatchError</a>&gt;</h4></section></summary><div class="docblock"><p>Create an account for <code>who</code> of the <code>asset</code> with a deposit taken from the <code>depositor</code>.</p>
 </div></details></div><h2 id="implementors" class="small-section-header">Implementors<a href="#implementors" class="anchor">§</a></h2><div id="implementors-list"></div><script src="../../implementors/frame_support/traits/misc/trait.AccountTouch.js" async></script></section></div></main></body></html>
