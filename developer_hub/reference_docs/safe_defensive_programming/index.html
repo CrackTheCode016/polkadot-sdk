@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Learn about how to write safe and defensive code in your FRAME runtime. As our runtime should never panic; this includes carefully handling `Result`/`Option` types, eliminating the possibility of integer overflows, converting between number types, or even handling floating point usage with fixed point arithmetic to mitigate issues that come with floating point calculations."><title>developer_hub::reference_docs::safe_defensive_programming - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="developer_hub" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0 (cc66ad468 2023-10-03)" data-channel="1.73.0" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-1596385f77d47ef2.css" data-theme-dark-css="dark-0a43001d3fc2282c.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-1596385f77d47ef2.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-0a43001d3fc2282c.css"><link rel="stylesheet" href="../../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc mod"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="logo-container" href="../../../developer_hub/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><h2></h2></nav><nav class="sidebar"><a class="logo-container" href="../../../developer_hub/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><h2 class="location"><a href="#">Module safe_defensive_programming</a></h2><div class="sidebar-elems"></div></nav><main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1>Module <a href="../../index.html">developer_hub</a>::<wbr><a href="../index.html">reference_docs</a>::<wbr><a class="mod" href="#">safe_defensive_programming</a><button id="copy-path" title="Copy item path to clipboard"><img src="../../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../../src/developer_hub/reference_docs/safe_defensive_programming.rs.html#1-582">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Learn about how to write safe and defensive code in your FRAME runtime.
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Learn about how to write safe and defensive code in your FRAME runtime. As our runtime should never panic; this includes carefully handling `Result`/`Option` types, eliminating the possibility of integer overflows, converting between number types, or even handling floating point usage with fixed point arithmetic to mitigate issues that come with floating point calculations."><title>developer_hub::reference_docs::safe_defensive_programming - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-cb6f1f67f1bcd037.css" id="mainThemeStyle"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="developer_hub" data-themes="" data-resource-suffix="" data-rustdoc-version="1.73.0 (cc66ad468 2023-10-03)" data-channel="1.73.0" data-search-js="search-6dfdfced5eff6596.js" data-settings-js="settings-de11bff964e9d4e5.js" data-settings-css="settings-8c76f75bfb6bd192.css" data-theme-light-css="light-1596385f77d47ef2.css" data-theme-dark-css="dark-0a43001d3fc2282c.css" data-theme-ayu-css="ayu-fd19013d6ce078bf.css" ><script src="../../../static.files/storage-db41da1a38ea3cb8.js"></script><script defer src="../../../static.files/main-0795b7d26be81095.js"></script><noscript><link rel="stylesheet" media="(prefers-color-scheme:light)" href="../../../static.files/light-1596385f77d47ef2.css"><link rel="stylesheet" media="(prefers-color-scheme:dark)" href="../../../static.files/dark-0a43001d3fc2282c.css"><link rel="stylesheet" href="../../../static.files/noscript-cffde32267a19fd6.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc mod"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="logo-container" href="../../../developer_hub/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><h2></h2></nav><nav class="sidebar"><a class="logo-container" href="../../../developer_hub/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><h2 class="location"><a href="#">Module safe_defensive_programming</a></h2><div class="sidebar-elems"></div></nav><main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1>Module <a href="../../index.html">developer_hub</a>::<wbr><a href="../index.html">reference_docs</a>::<wbr><a class="mod" href="#">safe_defensive_programming</a><button id="copy-path" title="Copy item path to clipboard"><img src="../../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../../src/developer_hub/reference_docs/safe_defensive_programming.rs.html#1-615">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><details class="toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>Learn about how to write safe and defensive code in your FRAME runtime.
 As our runtime should <em>never</em> panic; this includes carefully handling <a href="https://doc.rust-lang.org/1.73.0/core/result/enum.Result.html" title="enum core::result::Result"><code>Result</code></a>/<a href="https://doc.rust-lang.org/1.73.0/core/option/enum.Option.html" title="enum core::option::Option"><code>Option</code></a>
 types, eliminating the possibility of integer overflows, converting between number types, or
 even handling floating point usage with fixed point arithmetic to mitigate issues that come with
@@ -31,12 +31,14 @@ like, versus proper form.</p>
 <p>The following presents a rather obvious issue - one should always use the default of the type,
 or handle the error accordingly:</p>
 
-<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>bad_unwrap() {
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="attr">#[test]
+</span><span class="kw">fn </span>bad_unwrap() {
 	<span class="kw">let </span>some_result: <span class="prelude-ty">Result</span>&lt;u32, <span class="kw-2">&amp;</span>str&gt; = <span class="prelude-val">Ok</span>(<span class="number">10</span>);
 	<span class="macro">assert_eq!</span>(some_result.unwrap(), <span class="number">10</span>);
 }</code></pre></div>
 
-<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>good_unwrap() {
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="attr">#[test]
+</span><span class="kw">fn </span>good_unwrap() {
 	<span class="kw">let </span>some_result: <span class="prelude-ty">Result</span>&lt;u32, <span class="kw-2">&amp;</span>str&gt; = <span class="prelude-val">Err</span>(<span class="string">&quot;Error&quot;</span>);
 	<span class="macro">assert_eq!</span>(some_result.unwrap_or_default(), <span class="number">0</span>);
 	<span class="macro">assert_eq!</span>(some_result.unwrap_or(<span class="number">10</span>), <span class="number">10</span>);
@@ -44,14 +46,16 @@ or handle the error accordingly:</p>
 <p>Other operations, such as indexing a vector (or a similar scenario like looping and accessing it
 in a similar fashion) must also be tread with caution:</p>
 
-<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>bad_collection_retrieval() {
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="attr">#[test]
+</span><span class="kw">fn </span>bad_collection_retrieval() {
 	<span class="kw">let </span>my_list = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
 	<span class="comment">// THIS PANICS!
 	// Indexing on heap allocated values, i.e., vec, can be unsafe!
 	</span><span class="macro">assert_eq!</span>(my_list[<span class="number">5</span>], <span class="number">6</span>)
 }</code></pre></div>
 
-<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>good_collection_retrieval() {
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="attr">#[test]
+</span><span class="kw">fn </span>good_collection_retrieval() {
 	<span class="kw">let </span>my_list = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
 	<span class="comment">// Rust includes `.get`, returning Option&lt;T&gt; - so lets use that:
 	</span><span class="macro">assert_eq!</span>(my_list.get(<span class="number">5</span>), <span class="prelude-val">None</span>)
@@ -90,7 +94,8 @@ example:</p>
 parameter. For example, even this simple adding function could present one of two outcomes
 depending on whether it is in <strong>release</strong> or <strong>debug</strong> mode:</p>
 
-<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>naive_add(x: u8, y: u8) -&gt; u8 {
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="attr">#[test]
+</span><span class="kw">fn </span>naive_add(x: u8, y: u8) -&gt; u8 {
 	x + y
 }</code></pre></div>
 <p>If we passed in overflow-able values at runtime, this could actually panic (or wrap, if in
@@ -128,7 +133,8 @@ without fear of panic or unexpected behavior from wrapping.</p>
 matching to catch any unexpected behavior in the event of an overflow.</p>
 <p>This is an example of a valid operation:</p>
 
-<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>checked_add_example() {
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="attr">#[test]
+</span><span class="kw">fn </span>checked_add_example() {
 	<span class="comment">// This is valid, as 20 is perfectly within the bounds of u32.
 	</span><span class="kw">let </span>add = (<span class="number">10u32</span>).checked_add(<span class="number">10</span>);
 	<span class="macro">assert_eq!</span>(add, <span class="prelude-val">Some</span>(<span class="number">20</span>))
@@ -136,7 +142,8 @@ matching to catch any unexpected behavior in the event of an overflow.</p>
 <p>This is an example of an invalid operation, in this case, a simulated integer overflow, which
 would simply result in <code>None</code>:</p>
 
-<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>checked_add_handle_error_example() {
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="attr">#[test]
+</span><span class="kw">fn </span>checked_add_handle_error_example() {
 	<span class="comment">// This is invalid - we are adding something to the max of u32::MAX, which would overflow.
 	// Luckily, checked_add just marks this as None!
 	</span><span class="kw">let </span>add = u32::MAX.checked_add(<span class="number">10</span>);
@@ -156,7 +163,8 @@ two ways:</p>
 <p>Because wrapped operations return <code>Option&lt;T&gt;</code>, you can use a more verbose/explicit form of error
 handling via <code>if</code> or <code>if let</code>:</p>
 
-<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>increase_balance(account: Address, amount: u64) -&gt; <span class="prelude-ty">Result</span>&lt;(), BlockchainError&gt; {
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="attr">#[test]
+</span><span class="kw">fn </span>increase_balance(account: Address, amount: u64) -&gt; <span class="prelude-ty">Result</span>&lt;(), BlockchainError&gt; {
 	<span class="comment">// Get a user&#39;s current balance
 	</span><span class="kw">let </span>balance = Runtime::get_balance(account)<span class="question-mark">?</span>;
 	<span class="comment">// SAFELY increase the balance by some amount
@@ -169,7 +177,8 @@ handling via <code>if</code> or <code>if let</code>:</p>
 }</code></pre></div>
 <p>Optionally, <code>match</code> may also be directly used in a more concise manner:</p>
 
-<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>increase_balance_match(account: Address, amount: u64) -&gt; <span class="prelude-ty">Result</span>&lt;(), BlockchainError&gt; {
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="attr">#[test]
+</span><span class="kw">fn </span>increase_balance_match(account: Address, amount: u64) -&gt; <span class="prelude-ty">Result</span>&lt;(), BlockchainError&gt; {
 	<span class="comment">// Get a user&#39;s current balance
 	</span><span class="kw">let </span>balance = Runtime::get_balance(account)<span class="question-mark">?</span>;
 	<span class="comment">// SAFELY increase the balance by some amount
@@ -189,7 +198,8 @@ return <code>Option&lt;T&gt;</code>.</p>
 <code>ok_or</code>. This is a less verbose way of expressing the above.  Which to use often boils down to
 the developer’s preference:</p>
 
-<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>increase_balance_result(account: Address, amount: u64) -&gt; <span class="prelude-ty">Result</span>&lt;(), BlockchainError&gt; {
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="attr">#[test]
+</span><span class="kw">fn </span>increase_balance_result(account: Address, amount: u64) -&gt; <span class="prelude-ty">Result</span>&lt;(), BlockchainError&gt; {
 	<span class="comment">// Get a user&#39;s current balance
 	</span><span class="kw">let </span>balance = Runtime::get_balance(account)<span class="question-mark">?</span>;
 	<span class="comment">// SAFELY increase the balance by some amount - this time, by using `ok_or`
@@ -201,7 +211,8 @@ the developer’s preference:</p>
 <p>Saturating a number limits it to the type’s upper or lower bound, no matter the integer would
 overflow in runtime. For example, adding to <code>u32::MAX</code> would simply limit itself to <code>u32::MAX</code>:</p>
 
-<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>saturated_add_example() {
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="attr">#[test]
+</span><span class="kw">fn </span>saturated_add_example() {
 	<span class="comment">// Saturating add simply saturates
 	// to the numeric bound of that type if it overflows.
 	</span><span class="kw">let </span>add = u32::MAX.saturating_add(<span class="number">10</span>);
@@ -209,6 +220,17 @@ overflow in runtime. For example, adding to <code>u32::MAX</code> would simply l
 }</code></pre></div>
 <p>Saturating calculations can be used if one is very sure that something won’t overflow, but wants
 to avoid introducing the notion of any potential-panic or wrapping behavior.</p>
+<p>There is also a series of defensive alternatives via
+<a href="../../../frame_support/traits/misc/trait.DefensiveSaturating.html" title="trait frame_support::traits::misc::DefensiveSaturating"><code>DefensiveSaturating</code></a>, which introduces the same behavior
+of the <a href="../../../frame_support/traits/misc/trait.Defensive.html" title="trait frame_support::traits::misc::Defensive"><code>Defensive</code></a> trait, only with saturating, mathematical
+operations:</p>
+
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="attr">#[test]
+#[should_panic(expected = <span class="string">&quot;Defensive failure has been triggered!&quot;</span>)]
+</span><span class="kw">fn </span>saturated_defensive_example() {
+	<span class="kw">let </span>saturated_defensive = u32::MAX.defensive_saturating_add(<span class="number">10</span>);
+	<span class="macro">assert_eq!</span>(saturated_defensive, u32::MAX);
+}</code></pre></div>
 <h4 id="mathematical-operations-in-substrate-development---further-context"><a href="#mathematical-operations-in-substrate-development---further-context">Mathematical Operations in Substrate Development - Further Context</a></h4>
 <p>As a recap, we covered the following concepts:</p>
 <ol>
@@ -294,7 +316,8 @@ instead.</p>
 <li><strong><a href="sp_arithmetic::Perbill"><code>Perbill</code></a>, parts of a billion</strong></li>
 </ul>
 
-<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>perbill_example() {
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="attr">#[test]
+</span><span class="kw">fn </span>perbill_example() {
 	<span class="kw">let </span>p = Perbill::from_percent(<span class="number">80</span>);
 	<span class="comment">// 800000000 bil, or a representative of 0.800000000.
 	// Precision is in the billions place.
@@ -304,7 +327,8 @@ instead.</p>
 <li><strong><a href="sp_arithmetic::Percent"><code>Percent</code></a>, parts of a hundred</strong></li>
 </ul>
 
-<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>percent_example() {
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="attr">#[test]
+</span><span class="kw">fn </span>percent_example() {
 	<span class="kw">let </span>percent = Percent::from_rational(<span class="number">190u32</span>, <span class="number">400u32</span>);
 	<span class="macro">assert_eq!</span>(percent.deconstruct(), <span class="number">47</span>);
 }</code></pre></div>
@@ -322,7 +346,8 @@ fixed-point types to use:</p>
 <p>Similar to types that implement <a href="sp_arithmetic::PerThing"><code>PerThing</code></a>, these are also
 fixed-point types, however, they are able to represent larger numbers:</p>
 
-<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>fixed_u64() {
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="attr">#[test]
+</span><span class="kw">fn </span>fixed_u64() {
 	<span class="comment">// The difference between this and perthings is perthings operates within the relam of [0,
 	// 1] In cases where we need &gt; 1, we can used fixed types such as FixedU64
 
@@ -359,7 +384,8 @@ is why we’re using it here.</p>
 <p>As stated, one can also perform mathematics using these types directly. For example, finding the
 percentage of a particular item:</p>
 
-<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>percent_mult() {
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="attr">#[test]
+</span><span class="kw">fn </span>percent_mult() {
 	<span class="kw">let </span>percent = Percent::from_rational(<span class="number">5u32</span>, <span class="number">100u32</span>); <span class="comment">// aka, 5%
 	</span><span class="kw">let </span>five_percent_of_100 = percent * <span class="number">100u32</span>; <span class="comment">// 5% of 100 is 5.
 	</span><span class="macro">assert_eq!</span>(five_percent_of_100, <span class="number">5</span>)
@@ -370,7 +396,8 @@ percentage of a particular item:</p>
 Take for example this very rudimentary pricing mechanism, where we wish to calculate the demand
 / supply to get a price for some on-chain compute:</p>
 
-<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>fixed_u64_block_computation_example() {
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="attr">#[test]
+</span><span class="kw">fn </span>fixed_u64_block_computation_example() {
 	<span class="comment">// Cores available per block
 	</span><span class="kw">let </span>supply = <span class="number">10u128</span>;
 	<span class="comment">// Cores being ordered per block
@@ -400,7 +427,8 @@ Take for example this very rudimentary pricing mechanism, where we wish to calcu
 <p>Just as with <a href="sp_arithmetic::PerThing"><code>PerThing</code></a>, you can also perform regular mathematical
 expressions:</p>
 
-<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">fn </span>fixed_u64_operation_example() {
+<div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="attr">#[test]
+</span><span class="kw">fn </span>fixed_u64_operation_example() {
 	<span class="kw">let </span>rational_1 = FixedU64::from_rational(<span class="number">10</span>, <span class="number">5</span>); <span class="comment">// &quot;200%&quot; aka 2.
 	</span><span class="kw">let </span>rational_2 = FixedU64::from_rational(<span class="number">8</span>, <span class="number">5</span>); <span class="comment">// &quot;160%&quot; aka 1.6.
 

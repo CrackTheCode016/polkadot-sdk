@@ -580,6 +580,39 @@
 <a href="#580" id="580">580</a>
 <a href="#581" id="581">581</a>
 <a href="#582" id="582">582</a>
+<a href="#583" id="583">583</a>
+<a href="#584" id="584">584</a>
+<a href="#585" id="585">585</a>
+<a href="#586" id="586">586</a>
+<a href="#587" id="587">587</a>
+<a href="#588" id="588">588</a>
+<a href="#589" id="589">589</a>
+<a href="#590" id="590">590</a>
+<a href="#591" id="591">591</a>
+<a href="#592" id="592">592</a>
+<a href="#593" id="593">593</a>
+<a href="#594" id="594">594</a>
+<a href="#595" id="595">595</a>
+<a href="#596" id="596">596</a>
+<a href="#597" id="597">597</a>
+<a href="#598" id="598">598</a>
+<a href="#599" id="599">599</a>
+<a href="#600" id="600">600</a>
+<a href="#601" id="601">601</a>
+<a href="#602" id="602">602</a>
+<a href="#603" id="603">603</a>
+<a href="#604" id="604">604</a>
+<a href="#605" id="605">605</a>
+<a href="#606" id="606">606</a>
+<a href="#607" id="607">607</a>
+<a href="#608" id="608">608</a>
+<a href="#609" id="609">609</a>
+<a href="#610" id="610">610</a>
+<a href="#611" id="611">611</a>
+<a href="#612" id="612">612</a>
+<a href="#613" id="613">613</a>
+<a href="#614" id="614">614</a>
+<a href="#615" id="615">615</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! As our runtime should _never_ panic; this includes carefully handling [`Result`]/[`Option`]
 //! types, eliminating the possibility of integer overflows, converting between number types, or
 //! even handling floating point usage with fixed point arithmetic to mitigate issues that come with
@@ -794,6 +827,15 @@
 //! Saturating calculations can be used if one is very sure that something won&#39;t overflow, but wants
 //! to avoid introducing the notion of any potential-panic or wrapping behavior.
 //!
+//! There is also a series of defensive alternatives via
+//! [`DefensiveSaturating`](frame::traits::DefensiveSaturating), which introduces the same behavior
+//! of the [`Defensive`](frame::traits::Defensive) trait, only with saturating, mathematical
+//! operations:
+</span><span class="attr">#![doc = <span class="macro">docify::embed!</span>(
+    <span class="string">&quot;./src/reference_docs/safe_defensive_programming.rs&quot;</span>,
+    saturated_defensive_example
+)]
+</span><span class="doccomment">//!
 //! ### Mathematical Operations in Substrate Development - Further Context
 //!
 //! As a recap, we covered the following concepts:
@@ -995,11 +1037,13 @@
 	}
 
 	<span class="attr">#[docify::export]
+	#[test]
 	</span><span class="kw">fn </span>naive_add(x: u8, y: u8) -&gt; u8 {
 		x + y
 	}
 
 	<span class="attr">#[docify::export]
+	#[test]
 	</span><span class="kw">fn </span>checked_add_example() {
 		<span class="comment">// This is valid, as 20 is perfectly within the bounds of u32.
 		</span><span class="kw">let </span>add = (<span class="number">10u32</span>).checked_add(<span class="number">10</span>);
@@ -1007,6 +1051,7 @@
 	}
 
 	<span class="attr">#[docify::export]
+	#[test]
 	</span><span class="kw">fn </span>checked_add_handle_error_example() {
 		<span class="comment">// This is invalid - we are adding something to the max of u32::MAX, which would overflow.
 		// Luckily, checked_add just marks this as None!
@@ -1015,6 +1060,7 @@
 	}
 
 	<span class="attr">#[docify::export]
+	#[test]
 	</span><span class="kw">fn </span>increase_balance(account: Address, amount: u64) -&gt; <span class="prelude-ty">Result</span>&lt;(), BlockchainError&gt; {
 		<span class="comment">// Get a user&#39;s current balance
 		</span><span class="kw">let </span>balance = Runtime::get_balance(account)<span class="question-mark">?</span>;
@@ -1028,6 +1074,7 @@
 	}
 
 	<span class="attr">#[docify::export]
+	#[test]
 	</span><span class="kw">fn </span>increase_balance_match(account: Address, amount: u64) -&gt; <span class="prelude-ty">Result</span>&lt;(), BlockchainError&gt; {
 		<span class="comment">// Get a user&#39;s current balance
 		</span><span class="kw">let </span>balance = Runtime::get_balance(account)<span class="question-mark">?</span>;
@@ -1043,6 +1090,7 @@
 	}
 
 	<span class="attr">#[docify::export]
+	#[test]
 	</span><span class="kw">fn </span>increase_balance_result(account: Address, amount: u64) -&gt; <span class="prelude-ty">Result</span>&lt;(), BlockchainError&gt; {
 		<span class="comment">// Get a user&#39;s current balance
 		</span><span class="kw">let </span>balance = Runtime::get_balance(account)<span class="question-mark">?</span>;
@@ -1053,6 +1101,7 @@
 	}
 
 	<span class="attr">#[docify::export]
+	#[test]
 	</span><span class="kw">fn </span>saturated_add_example() {
 		<span class="comment">// Saturating add simply saturates
 		// to the numeric bound of that type if it overflows.
@@ -1060,12 +1109,14 @@
 		<span class="macro">assert_eq!</span>(add, u32::MAX)
 	}
 	<span class="attr">#[docify::export]
+	#[test]
 	</span><span class="kw">fn </span>percent_mult() {
 		<span class="kw">let </span>percent = Percent::from_rational(<span class="number">5u32</span>, <span class="number">100u32</span>); <span class="comment">// aka, 5%
 		</span><span class="kw">let </span>five_percent_of_100 = percent * <span class="number">100u32</span>; <span class="comment">// 5% of 100 is 5.
 		</span><span class="macro">assert_eq!</span>(five_percent_of_100, <span class="number">5</span>)
 	}
 	<span class="attr">#[docify::export]
+	#[test]
 	</span><span class="kw">fn </span>perbill_example() {
 		<span class="kw">let </span>p = Perbill::from_percent(<span class="number">80</span>);
 		<span class="comment">// 800000000 bil, or a representative of 0.800000000.
@@ -1074,12 +1125,14 @@
 	}
 
 	<span class="attr">#[docify::export]
+	#[test]
 	</span><span class="kw">fn </span>percent_example() {
 		<span class="kw">let </span>percent = Percent::from_rational(<span class="number">190u32</span>, <span class="number">400u32</span>);
 		<span class="macro">assert_eq!</span>(percent.deconstruct(), <span class="number">47</span>);
 	}
 
 	<span class="attr">#[docify::export]
+	#[test]
 	</span><span class="kw">fn </span>fixed_u64_block_computation_example() {
 		<span class="comment">// Cores available per block
 		</span><span class="kw">let </span>supply = <span class="number">10u128</span>;
@@ -1107,6 +1160,7 @@
 	}
 
 	<span class="attr">#[docify::export]
+	#[test]
 	</span><span class="kw">fn </span>fixed_u64() {
 		<span class="comment">// The difference between this and perthings is perthings operates within the relam of [0,
 		// 1] In cases where we need &gt; 1, we can used fixed types such as FixedU64
@@ -1120,6 +1174,7 @@
 	}
 
 	<span class="attr">#[docify::export]
+	#[test]
 	</span><span class="kw">fn </span>fixed_u64_operation_example() {
 		<span class="kw">let </span>rational_1 = FixedU64::from_rational(<span class="number">10</span>, <span class="number">5</span>); <span class="comment">// &quot;200%&quot; aka 2.
 		</span><span class="kw">let </span>rational_2 = FixedU64::from_rational(<span class="number">8</span>, <span class="number">5</span>); <span class="comment">// &quot;160%&quot; aka 1.6.
@@ -1135,12 +1190,14 @@
 		<span class="macro">assert_eq!</span>(subtraction, FixedU64::from_float(<span class="number">0.4</span>));
 	}
 	<span class="attr">#[docify::export]
+	#[test]
 	</span><span class="kw">fn </span>bad_unwrap() {
 		<span class="kw">let </span>some_result: <span class="prelude-ty">Result</span>&lt;u32, <span class="kw-2">&amp;</span>str&gt; = <span class="prelude-val">Ok</span>(<span class="number">10</span>);
 		<span class="macro">assert_eq!</span>(some_result.unwrap(), <span class="number">10</span>);
 	}
 
 	<span class="attr">#[docify::export]
+	#[test]
 	</span><span class="kw">fn </span>good_unwrap() {
 		<span class="kw">let </span>some_result: <span class="prelude-ty">Result</span>&lt;u32, <span class="kw-2">&amp;</span>str&gt; = <span class="prelude-val">Err</span>(<span class="string">&quot;Error&quot;</span>);
 		<span class="macro">assert_eq!</span>(some_result.unwrap_or_default(), <span class="number">0</span>);
@@ -1148,6 +1205,7 @@
 	}
 
 	<span class="attr">#[docify::export]
+	#[test]
 	</span><span class="kw">fn </span>bad_collection_retrieval() {
 		<span class="kw">let </span>my_list = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
 		<span class="comment">// THIS PANICS!
@@ -1156,10 +1214,18 @@
 	}
 
 	<span class="attr">#[docify::export]
+	#[test]
 	</span><span class="kw">fn </span>good_collection_retrieval() {
 		<span class="kw">let </span>my_list = <span class="macro">vec!</span>[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];
 		<span class="comment">// Rust includes `.get`, returning Option&lt;T&gt; - so lets use that:
 		</span><span class="macro">assert_eq!</span>(my_list.get(<span class="number">5</span>), <span class="prelude-val">None</span>)
+	}
+	<span class="attr">#[docify::export]
+	#[test]
+	#[should_panic(expected = <span class="string">&quot;Defensive failure has been triggered!&quot;</span>)]
+	</span><span class="kw">fn </span>saturated_defensive_example() {
+		<span class="kw">let </span>saturated_defensive = u32::MAX.defensive_saturating_add(<span class="number">10</span>);
+		<span class="macro">assert_eq!</span>(saturated_defensive, u32::MAX);
 	}
 }
 </code></pre></div></section></main></body></html>
