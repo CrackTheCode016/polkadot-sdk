@@ -7,8 +7,7 @@ slightly simplified terms, this macro declares the set of “transactions” of 
 <p>A <strong>dispatchable</strong> is a common term in FRAME, referring to process of constructing a
 function, and dispatching it with the correct inputs. This is commonly used with
 extrinsics, for example “an extrinsic has been dispatched”. See
-<a href="../../sp_runtime/traits/trait.Dispatchable.html" title="trait sp_runtime::traits::Dispatchable"><code>sp_runtime::traits::Dispatchable</code></a> and
-<a href="../traits/trait.UnfilteredDispatchable.html" title="trait frame_support::traits::UnfilteredDispatchable"><code>crate::traits::UnfilteredDispatchable</code></a>.</p>
+<a href="../../sp_runtime/traits/trait.Dispatchable.html" title="trait sp_runtime::traits::Dispatchable"><code>sp_runtime::traits::Dispatchable</code></a> and <a href="../traits/trait.UnfilteredDispatchable.html" title="trait frame_support::traits::UnfilteredDispatchable"><code>crate::traits::UnfilteredDispatchable</code></a>.</p>
 <h3 id="call-enum"><a href="#call-enum">Call Enum</a></h3>
 <p>The macro is called <code>call</code> (rather than <code>#[pallet::extrinsics]</code>) because of the
 generation of a <code>enum Call</code>. This enum contains only the encoding of the function
@@ -44,7 +43,7 @@ correct function.</p>
 
     <span class="kw">let </span>origin: RuntimeOrigin = frame_system::RawOrigin::Signed(<span class="number">10</span>).into();
     <span class="comment">// calling into a dispatchable from within the runtime is simply a function call.
-	    </span><span class="kw">let _ </span>= custom_pallet::Pallet::&lt;Runtime&gt;::some_dispatchable(origin.clone(), <span class="number">10</span>);
+        </span><span class="kw">let _ </span>= custom_pallet::Pallet::&lt;Runtime&gt;::some_dispatchable(origin.clone(), <span class="number">10</span>);
 
     <span class="comment">// calling into a dispatchable from the outer world involves constructing the bytes of
     </span><span class="kw">let </span>call = custom_pallet::Call::&lt;Runtime&gt;::some_dispatchable { input: <span class="number">10 </span>};
@@ -69,7 +68,7 @@ position of a function in <code>enum Call</code>.</li>
 <li>The return type is always <a href="../dispatch/type.DispatchResult.html" title="type frame_support::dispatch::DispatchResult"><code>crate::dispatch::DispatchResult</code></a> (or
 <a href="../dispatch/type.DispatchResultWithPostInfo.html" title="type frame_support::dispatch::DispatchResultWithPostInfo"><code>crate::dispatch::DispatchResultWithPostInfo</code></a>).</li>
 </ul>
-<p><strong>WARNING</strong>: modifying dispatchables, changing their order (ie. using <a href="attr.call_index.html" title="attr frame_support::pallet_macros::call_index"><code>call_index</code></a>),
+<p><strong>WARNING</strong>: modifying dispatchables, changing their order (i.e. using <a href="attr.call_index.html" title="attr frame_support::pallet_macros::call_index"><code>call_index</code></a>),
 removing some, etc., must be done with care. This will change the encoding of the , and
 the call can be stored on-chain (e.g. in <code>pallet-scheduler</code>). Thus, migration might be
 needed. This is why the use of <code>call_index</code> is mandatory by default in FRAME.</p>

@@ -92,6 +92,11 @@
 <a href="#92" id="92">92</a>
 <a href="#93" id="93">93</a>
 <a href="#94" id="94">94</a>
+<a href="#95" id="95">95</a>
+<a href="#96" id="96">96</a>
+<a href="#97" id="97">97</a>
+<a href="#98" id="98">98</a>
+<a href="#99" id="99">99</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! # Polkadot SDK Reference Docs.
 //!
 //! This is the entry point for all reference documents that enhance one&#39;s learning experience in
@@ -104,13 +109,13 @@
 //! First, see [why we use rust-docs for everything](crate#why-rust-docs) and our documentation
 //! [principles](crate#principles). We acknowledge that as much of the crucial information should be
 //! embedded in the low level rust-docs. Then, high level scenarios should be covered in
-//! [`crate::tutorial`]. Finally, we acknowledge that there is a category of information that is:
+//! [`crate::guides`]. Finally, we acknowledge that there is a category of information that is:
 //!
 //! 1. crucial to know.
 //! 2. is too high level to be in the rust-doc of any one `type`, `trait` or `fn`.
-//! 3. is too low level to be encompassed in a [`crate::tutorial`].
+//! 3. is too low level to be encompassed in a [`crate::guides`].
 //!
-//! We can this class of documents &quot;reference documents&quot;. Our goal should be to minimize the number
+//! We call this class of documents &quot;reference documents&quot;. Our goal should be to minimize the number
 //! of &quot;reference&quot; docs, as they incur maintenance burden.
 
 /// Learn how Substrate and FRAME use traits and associated types to make modules generic in a
@@ -123,7 +128,7 @@
 <span class="doccomment">/// The glossary.
 </span><span class="kw">pub mod </span>glossary;
 
-<span class="doccomment">/// Learn about the WASM meta-protocol of all substrate-based chains.
+<span class="doccomment">/// Learn about the WASM meta-protocol of all Substrate-based chains.
 </span><span class="kw">pub mod </span>wasm_meta_protocol;
 
 <span class="doccomment">/// Learn about the differences between smart contracts and a FRAME-based runtime. They are both
@@ -152,12 +157,12 @@
 /// control usage and sybil attacks.
 </span><span class="kw">pub mod </span>fee_less_runtime;
 
-<span class="doccomment">/// Learn about metadata, the main means through which an upgrade-able runtime communicate its
+<span class="doccomment">/// Learn about metadata, the main means through which an upgradeable runtime communicates its
 /// properties to the outside world.
 </span><span class="comment">// TODO: @jsdw
 </span><span class="kw">pub mod </span>metadata;
 
-<span class="doccomment">/// Learn about how frame-system handles accountIds, nonces, consumers and providers.
+<span class="doccomment">/// Learn about how frame-system handles `account-ids`, nonces, consumers and providers.
 </span><span class="kw">pub mod </span>frame_system_accounts;
 
 <span class="doccomment">/// Learn about the currency-related abstractions provided in FRAME.
@@ -175,15 +180,20 @@
 </span><span class="comment">// TODO: @kianenigma
 </span><span class="kw">pub mod </span>wasm_memory;
 
-<span class="doccomment">/// Learn about substrate&#39;s CLI, and how it can be extended.
+<span class="doccomment">/// Learn about Substrate&#39;s CLI, and how it can be extended.
 </span><span class="comment">// TODO: @kianenigma
 </span><span class="kw">pub mod </span>cli;
 
-<span class="doccomment">/// Learn about substrate&#39;s consensus algorithms, and how you can switch between two.
+<span class="doccomment">/// Learn about Substrate&#39;s consensus algorithms, and how you can switch between two.
 </span><span class="comment">// TODO: @JoshOrndorff @kianenigma
 </span><span class="kw">pub mod </span>consensus_swapping;
 
 <span class="doccomment">/// Learn about all the advance ways to test your coordinate a rutnime upgrade and data migration.
 </span><span class="comment">// TODO: @liamaharon
 </span><span class="kw">pub mod </span>frame_runtime_migration;
+
+<span class="doccomment">/// Learn about light nodes, how they function, and how Substrate-based chains come
+/// light-node-first out of the box.
+</span><span class="comment">// TODO: @jsdw @josepot
+</span><span class="kw">pub mod </span>light_nodes;
 </code></pre></div></section></main></body></html>

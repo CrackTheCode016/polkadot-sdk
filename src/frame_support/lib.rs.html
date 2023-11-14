@@ -2836,7 +2836,7 @@
 	<span class="kw">pub use </span>sp_inherents;
 	<span class="attr">#[cfg(feature = <span class="string">&quot;std&quot;</span>)]
 	</span><span class="kw">pub use </span>sp_io::TestExternalities;
-	<span class="kw">pub use </span>sp_io::{<span class="self">self</span>, storage::root <span class="kw">as </span>storage_root};
+	<span class="kw">pub use </span>sp_io::{<span class="self">self</span>, hashing, storage::root <span class="kw">as </span>storage_root};
 	<span class="kw">pub use </span>sp_metadata_ir <span class="kw">as </span>metadata_ir;
 	<span class="attr">#[cfg(feature = <span class="string">&quot;std&quot;</span>)]
 	</span><span class="kw">pub use </span>sp_runtime::{bounded_btree_map, bounded_vec};
@@ -5016,9 +5016,10 @@
 </span><span class="kw">pub mod </span>pallet_macros {
 	<span class="kw">pub use </span>frame_support_procedural::{
 		composite_enum, config, disable_frame_system_supertrait_check, error, event,
-		extra_constants, generate_deposit, generate_store, getter, hooks, import_section, inherent,
-		no_default, no_default_bounds, origin, pallet_section, storage_prefix, storage_version,
-		type_value, unbounded, validate_unsigned, weight, whitelist_storage,
+		extra_constants, feeless_if, generate_deposit, generate_store, getter, hooks,
+		import_section, inherent, no_default, no_default_bounds, origin, pallet_section,
+		storage_prefix, storage_version, type_value, unbounded, validate_unsigned, weight,
+		whitelist_storage,
 	};
 
 	<span class="doccomment">/// Allows a pallet to declare a set of functions as a *dispatchable extrinsic*. In
@@ -5030,8 +5031,7 @@
 	/// A **dispatchable** is a common term in FRAME, referring to process of constructing a
 	/// function, and dispatching it with the correct inputs. This is commonly used with
 	/// extrinsics, for example &quot;an extrinsic has been dispatched&quot;. See
-	/// [`sp_runtime::traits::Dispatchable`] and
-	/// [`crate::traits::UnfilteredDispatchable`].
+	/// [`sp_runtime::traits::Dispatchable`] and [`crate::traits::UnfilteredDispatchable`].
 	///
 	/// ## Call Enum
 	///
@@ -5087,7 +5087,7 @@
 	/// #    TestExternalities::new_empty().execute_with(|| {
 	///     let origin: RuntimeOrigin = frame_system::RawOrigin::Signed(10).into();
 	///     // calling into a dispatchable from within the runtime is simply a function call.
-	/// 	    let _ = custom_pallet::Pallet::&lt;Runtime&gt;::some_dispatchable(origin.clone(), 10);
+	///         let _ = custom_pallet::Pallet::&lt;Runtime&gt;::some_dispatchable(origin.clone(), 10);
 	///
 	///     // calling into a dispatchable from the outer world involves constructing the bytes of
 	///     let call = custom_pallet::Call::&lt;Runtime&gt;::some_dispatchable { input: 10 };
@@ -5101,7 +5101,7 @@
 	///     // referring to the second variant of `enum Call`.
 	///     let call = custom_pallet::Call::&lt;Runtime&gt;::other { input: 10 };
 	///     assert_eq!(call.encode(), vec![1u8, 10, 0, 0, 0, 0, 0, 0, 0]);
-	/// 	#    });
+	///     #    });
 	/// }
 	/// ```
 	///
@@ -5115,7 +5115,7 @@
 	/// - The return type is always [`crate::dispatch::DispatchResult`] (or
 	///   [`crate::dispatch::DispatchResultWithPostInfo`]).
 	///
-	/// **WARNING**: modifying dispatchables, changing their order (ie. using [`call_index`]),
+	/// **WARNING**: modifying dispatchables, changing their order (i.e. using [`call_index`]),
 	/// removing some, etc., must be done with care. This will change the encoding of the , and
 	/// the call can be stored on-chain (e.g. in `pallet-scheduler`). Thus, migration might be
 	/// needed. This is why the use of `call_index` is mandatory by default in FRAME.
@@ -5146,7 +5146,7 @@
 	///
 	/// A common example of `compact` is for numeric values that are often times far far away
 	/// from their theoretical maximum. For example, in the context of a crypto-currency, the
-	/// balance of an individual account is often times way less then what the numeric type
+	/// balance of an individual account is oftentimes way less than what the numeric type
 	/// allows. In all such cases, using `compact` is sensible.
 	///
 	/// ```

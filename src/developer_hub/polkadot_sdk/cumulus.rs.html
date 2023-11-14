@@ -128,12 +128,10 @@
 <a href="#128" id="128">128</a>
 <a href="#129" id="129">129</a>
 <a href="#130" id="130">130</a>
-<a href="#131" id="131">131</a>
-<a href="#132" id="132">132</a>
 </pre></div><pre class="rust"><code><span class="doccomment">//! # Cumulus
 //!
-//! Substrate provides a framework through which a blockchain node and runtime can easily be
-//! created. Cumulus aims to extend the same approach to creation of Polkadot parachains.
+//! Substrate provides a framework ([FRAME]) through which a blockchain node and runtime can easily
+//! be created. Cumulus aims to extend the same approach to creation of Polkadot parachains.
 //!
 //! &gt; Cumulus clouds are shaped sort of like dots; together they form a system that is intricate,
 //! &gt; beautiful and functional.
@@ -146,7 +144,8 @@
 //!
 //! #### Cumulus Pallets
 //!
-//! A parachain runtime should use a number of pallets that are provided by Cumulus. Notably:
+//! A parachain runtime should use a number of pallets that are provided by Cumulus and Substrate.
+//! Notably:
 //!
 //! - [`frame-system`](frame::prelude::frame_system), like all FRAME-based runtimes.
 //! - [`cumulus_pallet_parachain_system`]
@@ -159,7 +158,7 @@
 //! - [`pallet_timestamp`]
 //! - [`pallet_aura`]
 //! - [`cumulus_pallet_aura_ext`]
-</span><span class="comment">// #![doc = docify::embed!(&quot;./src/lib.rs&quot;, consensus_pallets)]
+</span><span class="attr">#![doc = <span class="macro">docify::embed!</span>(<span class="string">&quot;./src/polkadot_sdk/cumulus.rs&quot;</span>, consensus_pallets)]
 </span><span class="doccomment">//!
 //!
 //! Finally, a separate macro, similar to
@@ -169,10 +168,6 @@
 //! blocks produced by our parachain.
 </span><span class="attr">#![doc = <span class="macro">docify::embed!</span>(<span class="string">&quot;./src/polkadot_sdk/cumulus.rs&quot;</span>, validate_block)]
 </span><span class="doccomment">//!
-//! ## Example: Running a node
-//!
-//! TODO
-//!
 //! ---
 //!
 //! [FRAME]: crate::polkadot_sdk::frame_runtime
@@ -218,9 +213,8 @@
 				<span class="kw">type </span>OnSystemEvent = ();
 				<span class="kw">type </span>SelfParaId = parachain_info::Pallet&lt;Runtime&gt;;
 				<span class="kw">type </span>OutboundXcmpMessageSource = ();
-				<span class="kw">type </span>DmpMessageHandler = ();
-				<span class="kw">type </span>ReservedDmpWeight = ();
 				<span class="kw">type </span>XcmpMessageHandler = ();
+				<span class="kw">type </span>ReservedDmpWeight = ();
 				<span class="kw">type </span>ReservedXcmpWeight = ();
 				<span class="kw">type </span>CheckAssociatedRelayNumber =
 					cumulus_pallet_parachain_system::RelayNumberMonotonicallyIncreases;
@@ -230,6 +224,8 @@
 					</span><span class="number">1</span>,
 					<span class="number">1</span>,
 				&gt;;
+				<span class="kw">type </span>WeightInfo = ();
+				<span class="kw">type </span>DmpQueue = frame::traits::EnqueueWithOrigin&lt;(), sp_core::ConstU8&lt;<span class="number">0</span>&gt;&gt;;
 			}
 
 			<span class="kw">impl </span>parachain_info::Config <span class="kw">for </span>Runtime {}

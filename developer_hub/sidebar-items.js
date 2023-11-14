@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["meta_contributing","polkadot_sdk","reference_docs","tutorial"]};
+window.SIDEBAR_ITEMS = {"mod":["guides","meta_contributing","polkadot_sdk","reference_docs"]};

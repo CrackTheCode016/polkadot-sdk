@@ -6,11 +6,11 @@
 <p>An extrinsic is formally described as any external data that is originating from the outside of
 the runtime and fed into the runtime as a part of the block-body.</p>
 <p>Inherents are special types of extrinsics that are placed into the block by the block-builder.
-they are unsigned because the assertion is that they are “inherently true” by virtue of getting
+They are unsigned because the assertion is that they are “inherently true” by virtue of getting
 past all validators.</p>
-<p>Transaction are all other statements provided by external entities that the chain deems values
+<p>Transactions are all other statements provided by external entities that the chain deems values
 and decided to include in the block. This value is typically in the form of fee payment, but it
-could in principle be any other interaction. Transactions are either signed, or unsigned. A
+could in principle be any other interaction. Transactions are either signed or unsigned. A
 sensible transaction pool should ensure that only transactions that are worthwhile are
 considered for block-building.</p>
 <pre class="mermaid" style="text-align:center;background: transparent;">
@@ -21,7 +21,7 @@ flowchart TD
     T --> UT(Unsigned)
 
 </pre><script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";var doc_theme = localStorage.getItem("rustdoc-theme");if (doc_theme === "dark" || doc_theme === "ayu") mermaid.initialize({theme: "dark"});</script>
-<p>This type is by no means enforced within substrate, but given its generic-ness, it is highly
+<p>This type is by no means enforced within Substrate, but given its genericness, it is highly
 likely that for most use-cases it will suffice. Thus, the encoding of this type will dictate
 exactly what bytes should be sent to a runtime to transact with it.</p>
 <p>This can be checked using <a href="../traits/trait.Checkable.html" title="trait sp_runtime::traits::Checkable"><code>Checkable</code></a>, yielding a <a href="struct.CheckedExtrinsic.html" title="struct sp_runtime::generic::CheckedExtrinsic"><code>CheckedExtrinsic</code></a>, which is the
