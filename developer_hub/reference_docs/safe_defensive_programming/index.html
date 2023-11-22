@@ -119,7 +119,7 @@ use case natively built into Rust, as well as libraries like [<code>sp_arithmeti
 <h3 id="infallible-arithmetic"><a href="#infallible-arithmetic">Infallible Arithmetic</a></h3>
 <p>Our main objective in runtime development is to reduce the likelihood of any <em>unintended</em> or
 <em>undefined</em> behavior. Intentional and predictable design should be our first and foremost
-property for ensuring a well running, safely designed system. Both Rust and Substrate both
+property for ensuring a well running, safely designed system. Both Rust and Substrate
 provide safe ways to deal with numbers and alternatives to floating point arithmetic.</p>
 <p>Rather they (should) use fixed-point arithmetic to mitigate the potential for inaccuracy,
 rounding errors, or other unexpected behavior. For more on the specifics of the peculiarities of floating point calculations, <a href="https://www.youtube.com/watch?v=PZRI1IfStY0">watch this video by the Computerphile</a>.</p>
@@ -129,7 +129,7 @@ aforementioned issues.</p>
 <p>The following methods represent different ways one can handle numbers safely natively in Rust,
 without fear of panic or unexpected behavior from wrapping.</p>
 <h4 id="checked-arithmetic"><a href="#checked-arithmetic">Checked Arithmetic</a></h4>
-<p><strong>Checked operations</strong> utilize a <code>Option&lt;T&gt;</code> as a return type. This allows for simple pattern
+<p><strong>Checked operations</strong> utilize an <code>Option&lt;T&gt;</code> as a return type. This allows for simple pattern
 matching to catch any unexpected behavior in the event of an overflow.</p>
 <p>This is an example of a valid operation:</p>
 
