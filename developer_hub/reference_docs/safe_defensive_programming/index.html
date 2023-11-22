@@ -290,7 +290,7 @@ know the state of their proposal:
 <div class="example-wrap ignore"><a href="#" class="tooltip" title="This example is not tested">ⓘ</a><pre class="rust rust-example-rendered"><code><span class="kw">let </span>next_proposal_id = current_count.checked_add(<span class="number">1</span>).ok_or_else(|| Error::TooManyProposals)<span class="question-mark">?</span>;</code></pre></div>
 </details>
 <p>From the above, we can clearly see the problematic nature of seemingly simple operations in
-runtime. Of course, it may be that using checked math is perfectly fine under some scenarios -
+runtime. Of course, it may be that using unchecked math is perfectly fine under some scenarios -
 such as certain balance being never realistically attainable, or a number type being so large
 that it could never realistically overflow unless one sent thousands of transactions to the
 network.</p>
