@@ -129,7 +129,7 @@ aforementioned issues.</p>
 <p>The following methods represent different ways one can handle numbers safely natively in Rust,
 without fear of panic or unexpected behavior from wrapping.</p>
 <h4 id="checked-arithmetic"><a href="#checked-arithmetic">Checked Arithmetic</a></h4>
-<p><strong>Checked operations</strong> utilize a <code>Option&lt;T&gt;</code> as a return type. This allows for simple pattern
+<p><strong>Checked operations</strong> utilize an <code>Option&lt;T&gt;</code> as a return type. This allows for simple pattern
 matching to catch any unexpected behavior in the event of an overflow.</p>
 <p>This is an example of a valid operation:</p>
 
@@ -239,7 +239,7 @@ operations:</p>
 <li><strong>Wrapped</strong> operations (the default) - wrap around to above or below the bounds of a type,</li>
 </ol>
 <p>Known scenarios that could be fallible should be avoided: i.e., avoiding the possibility of
-dividing/modulo by zero at any point should be mitigated.  One should be, instead, opting for a
+dividing/modulo by zero at any point should be mitigated. One should be, instead, opting for a
 <code>checked_</code> method in order to introduce safe arithmetic in their code.</p>
 <h5 id="the-problem-with-default-wrapped-operations"><a href="#the-problem-with-default-wrapped-operations">The problem with ‘default’ wrapped operations</a></h5>
 <p><strong>Wrapped operations</strong> cause the overflow to wrap around to either the maximum or minimum of
